@@ -50,7 +50,7 @@ public class SimpleCommandManager extends BaseCommandManager {
         
         /**
          * @param command
-         *        未成功初始化的命令
+         *            未成功初始化的命令
          */
         public SimpleCommandNotInitialExecption(SimpleCommand command) {
             this.command = command;

@@ -39,7 +39,12 @@ public abstract class SimpleCommand implements Command {
     private int minArgsLength;
     private int maxArgsLength;
     
-    public SimpleCommand() {//TODO
+    /**
+     * @param name
+     *            命令名
+     */
+    public SimpleCommand(String name) {
+        this.name = name;
     }
     
     /**
@@ -54,7 +59,7 @@ public abstract class SimpleCommand implements Command {
     }
     
     @Override
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
     
@@ -127,9 +132,9 @@ public abstract class SimpleCommand implements Command {
      * 当命令发生者的类型不符合命令处理器的要求时会被调用
      * 
      * @param sender
-     *        命令发生者
+     *            命令发生者
      * @param args
-     *        实际命令参数
+     *            实际命令参数
      * @return 返回false将显示命令的默认帮助，不需要显示则返回true
      */
     protected boolean onSenderTypeDisallow(CommandSender sender, String... args) {
@@ -140,9 +145,9 @@ public abstract class SimpleCommand implements Command {
      * 当 <b>命令参数个数</b><code> < </code><b>必填参数个数</b> 时会被调用
      * 
      * @param sender
-     *        命令发生者
+     *            命令发生者
      * @param args
-     *        实际命令参数
+     *            实际命令参数
      * @return 返回false将显示命令的默认帮助，不需要显示则返回true
      */
     protected boolean onTooLittleArgs(CommandSender sender, String... args) {
@@ -153,9 +158,9 @@ public abstract class SimpleCommand implements Command {
      * 当 <b>命令参数个数</b><code> > </code><b>必填参数个数+可选参数个数</b> 时会被调用
      * 
      * @param sender
-     *        命令发生者
+     *            命令发生者
      * @param args
-     *        实际命令参数
+     *            实际命令参数
      * @return 返回false将显示命令的默认帮助，不需要显示则返回true
      */
     protected boolean onTooManyArgs(CommandSender sender, String... args) {
@@ -168,13 +173,13 @@ public abstract class SimpleCommand implements Command {
      * 当有参数转换失败后会立即调用此方法，不会继续尝试转换后续参数
      * 
      * @param sender
-     *        命令发生者
+     *            命令发生者
      * @param arg
-     *        转换失败的参数
+     *            转换失败的参数
      * @param convertTo
-     *        转换失败的参数应该被转换成的类型
+     *            转换失败的参数应该被转换成的类型
      * @param args
-     *        实际命令参数
+     *            实际命令参数
      * @return 返回false将显示命令的默认帮助，不需要显示则返回true
      */
     protected boolean onArgConvertFail(CommandSender sender, String arg, Class<?> convertTo, String... args) {
@@ -184,11 +189,6 @@ public abstract class SimpleCommand implements Command {
     protected static boolean init(SimpleCommand command, ArgConverterManager converterManager)
             throws MissingArgConverterExecption {
         Class<? extends SimpleCommand> cls = command.getClass();
-        if (!cls.isAnnotationPresent(CommandInfo.class)) {
-            //TODO 类没有命令注解
-            return false;
-        }
-        command.name = cls.getAnnotation(CommandInfo.class).name();
         Method handler = ReflectionUtil.getFirstMethodByAnnotation(cls, CommandHandler.class);
         if (handler == null) {
             //TODO 没有带命令处理器注解的方法
