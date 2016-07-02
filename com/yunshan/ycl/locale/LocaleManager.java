@@ -1,4 +1,4 @@
-package com.yunshan.ycl.locale;
+﻿package com.yunshan.ycl.locale;
 
 import java.util.Locale;
 import java.util.Objects;

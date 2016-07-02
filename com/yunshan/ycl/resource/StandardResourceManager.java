@@ -1,4 +1,4 @@
-package com.yunshan.ycl.resource;
+﻿package com.yunshan.ycl.resource;
 
 import java.io.File;
 import java.io.IOException;
