@@ -1,1 +1,2 @@
-# Yun_Shan-Command-Library
+# Yun_Shan-Common-Library
+A common library for Bukkit developers.
