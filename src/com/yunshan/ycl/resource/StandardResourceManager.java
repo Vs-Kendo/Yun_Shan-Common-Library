@@ -59,7 +59,7 @@ public class StandardResourceManager implements ResourceManager {
     }
     
     protected Resource getSelfResource(Path resPath) {
-        URL url = this.classLoader.getResource("/" + resPath.toString().replace('\\', '/'));
+        URL url = this.classLoader.getResource(resPath.toString().replace('\\', '/'));
         if (url == null) return null;
         return new URLResource(url);
     }
