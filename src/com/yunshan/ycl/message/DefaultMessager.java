@@ -82,12 +82,19 @@ public class DefaultMessager implements Messager {
         receiver.sendMessage(this.getMessage(msgType, msgKey, args));
     }
     
+    /** 无消息类型前缀 */
+    private static final String NO_MSG_TYPE_PREFIX = "$$";
+    
     protected String[] getMessage(String msgType, String msgKey, Object... args) {
         String msg = this.messageManager.getMessage(msgKey, args);
-        String[] formatMsg = msg.split("\n");
-        for (int i = 0; i < formatMsg.length; i++) {
-            formatMsg[i] = this.messageManager.getMessage(MSG_TYPE_PREFIX + msgType, formatMsg[i]);
+        String[] formatMsgs = msg.split("\n");
+        for (int i = 0; i < formatMsgs.length; i++) {
+            String formatMsg = formatMsgs[i];
+            if (!formatMsg.startsWith(NO_MSG_TYPE_PREFIX)) {
+                formatMsg = this.messageManager.getMessage(MSG_TYPE_PREFIX + msgType, formatMsg);
+            }
+            formatMsgs[i] = formatMsg;
         }
-        return formatMsg;
+        return formatMsgs;
     }
 }
