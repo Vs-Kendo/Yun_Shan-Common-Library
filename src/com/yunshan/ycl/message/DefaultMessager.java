@@ -11,7 +11,7 @@ public class DefaultMessager implements Messager {
     
     protected static final ConsoleCommandSender Console = Bukkit.getConsoleSender();
     
-    protected static final String MSG_TYPE_PREFIX = "message.format.type";
+    protected static final String MSG_TYPE_PREFIX = "message.format.";
     protected static final String TYPE_INFO       = "info";
     protected static final String TYPE_DEBUG      = "debug";
     protected static final String TYPE_WARNING    = "warning";
