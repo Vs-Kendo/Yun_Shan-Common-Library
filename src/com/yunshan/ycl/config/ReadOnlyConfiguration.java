@@ -27,16 +27,20 @@ public class ReadOnlyConfiguration {
     
     protected ConfigurationSection config;
     
+    protected final String contents;
+    
     /**
      * @param cfg
-     *        配置节点
+     *            配置节点
      */
     public ReadOnlyConfiguration(YamlConfiguration cfg) {
         this.config = cfg;
+        this.contents = cfg.saveToString();
     }
     
-    protected ReadOnlyConfiguration(ConfigurationSection cfg) {
+    protected ReadOnlyConfiguration(ConfigurationSection cfg, String contents) {
         this.config = cfg;
+        this.contents = contents;
     }
     
     /**
@@ -115,7 +119,7 @@ public class ReadOnlyConfiguration {
      *      getConfigurationSection(java.lang.String)
      */
     public ReadOnlyConfiguration getReadOnlyConfiguration(String path) {
-        return new ReadOnlyConfiguration(this.config.getConfigurationSection(path));
+        return new ReadOnlyConfiguration(this.config.getConfigurationSection(path), this.contents);
     }
     
     /**
@@ -447,11 +451,16 @@ public class ReadOnlyConfiguration {
         return this.config.isVector(path);
     }
     
+    @Override
+    public String toString() {
+        return this.contents;
+    }
+    
     /**
      * 使用<b>UTF-8</b>编码从输入流读取配置
      * 
      * @param input
-     *        含有配置信息的输入流
+     *            含有配置信息的输入流
      * @return 只读配置
      * @see #loadConfiguration(InputStream, Charset)
      */
@@ -463,9 +472,9 @@ public class ReadOnlyConfiguration {
      * 使用指定编码从输入流读取配置
      * 
      * @param input
-     *        含有配置信息的输入流
+     *            含有配置信息的输入流
      * @param charset
-     *        配置的编码
+     *            配置的编码
      * @return 只读配置
      */
     public static ReadOnlyConfiguration loadConfiguration(InputStream input, Charset charset) {
