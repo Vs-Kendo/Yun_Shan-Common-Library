@@ -56,7 +56,8 @@ public class ReadWriteConfiguration extends ReadOnlyConfiguration {
      * @see org.bukkit.configuration.ConfigurationSection#getConfigurationSection(java.lang.String)
      */
     public ReadWriteConfiguration getReadWriteConfiguration(String path) {
-        return new ReadWriteConfiguration(super.config.getConfigurationSection(path), this.configManager,super.contents);
+        return new ReadWriteConfiguration(super.config.getConfigurationSection(path), this.configManager,
+                super.contents);
     }
     
     /**
@@ -86,6 +87,11 @@ public class ReadWriteConfiguration extends ReadOnlyConfiguration {
      */
     public String saveToYaml() {
         return ((YamlConfiguration) super.config).saveToString();
+    }
+    
+    @Override
+    public String toString() {
+        return this.saveToYaml();
     }
     
     /**
