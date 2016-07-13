@@ -451,6 +451,11 @@ public class ReadOnlyConfiguration {
         return this.config.isVector(path);
     }
     
+    /**
+     * 把配置对象转换为yaml格式的配置文本
+     * 
+     * @return yaml格式的配置文本
+     */
     @Override
     public String toString() {
         return this.contents;
