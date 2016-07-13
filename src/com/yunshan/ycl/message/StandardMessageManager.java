@@ -3,6 +3,8 @@ package com.yunshan.ycl.message;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
+
 import com.google.common.collect.Maps;
 import com.yunshan.ycl.config.ReadOnlyConfiguration;
 import com.yunshan.ycl.locale.LocaleManager;
@@ -16,7 +18,7 @@ public class StandardMessageManager implements MessageManager {
     
     protected static final String MESSAGE_RES_PATH = "messages/";
     
-    protected static MessageFormat MISSING_LANGUAGE;
+    protected MessageFormat MISSING_LANGUAGE;
     
     protected final ResourceManager resourceManager;
     protected final LocaleManager   localeManager;
@@ -27,11 +29,18 @@ public class StandardMessageManager implements MessageManager {
     public StandardMessageManager(ResourceManager resourceManager, LocaleManager localeManager) {
         this.resourceManager = resourceManager;
         this.localeManager = localeManager;
+        MISSING_LANGUAGE = this.getMessageFormatFromCache("message.missingLanguage");
+        if (MISSING_LANGUAGE == null) {
+            MISSING_LANGUAGE = new MessageFormat("missing language:{0}");
+        }
     }
     
     @Override
     public String getMessage(String key, Object... args) {
         MessageFormat format = this.getMessageFormatFromCache(key);
+        if (format == null) {
+            return MISSING_LANGUAGE.format(new Object[] { key });
+        }
         return format.format(args);
     }
     
@@ -50,6 +59,7 @@ public class StandardMessageManager implements MessageManager {
             if (cfg == null) return MISSING_LANGUAGE;
             String msg = cfg.getString(key);
             if (msg == null) return MISSING_LANGUAGE;
+            msg = ChatColor.translateAlternateColorCodes('&', msg);
             format = new MessageFormat(msg, this.localeManager.getFormatLocale());
             this.formatCache.put(key, format);
         }
@@ -66,9 +76,5 @@ public class StandardMessageManager implements MessageManager {
             this.languageConfig = ReadOnlyConfiguration.loadConfiguration(res.getInputStream());
         }
         return this.languageConfig;
-    }
-    
-    protected MessageFormat getMissingLanguageMessageFormat() {
-        return null;//TODO
     }
 }
