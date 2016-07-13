@@ -3,6 +3,8 @@ package com.yunshan.ycl.message;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.bukkit.ChatColor;
+
 import com.google.common.collect.Maps;
 import com.yunshan.ycl.config.ReadOnlyConfiguration;
 import com.yunshan.ycl.locale.LocaleManager;
@@ -28,21 +30,31 @@ public class GroupMessageManager extends StandardMessageManager {
     
     @Override
     protected MessageFormat getMessageFormatFromCache(String key) {
-        return super.getMessageFormatFromCache(toRealKey(key));
+        MessageFormat format = this.formatCache.get(key);
+        if (format == null) {
+            ReadOnlyConfiguration cfg = this.getLanguageConfig(key);
+            if (cfg == null) return MISSING_LANGUAGE;
+            String msg = cfg.getString(toRealKey(key)/* 转换为实际配置中的key */);
+            if (msg == null) return MISSING_LANGUAGE;
+            msg = ChatColor.translateAlternateColorCodes('&', msg);
+            format = new MessageFormat(msg, this.localeManager.getFormatLocale());
+            this.formatCache.put(key, format);
+        }
+        return format;
     }
     
     @Override
     protected ReadOnlyConfiguration getLanguageConfig(String key) {
-        return this.getLanguageCache(key);
+        return this.getLanguageCache(toGroup(key));
     }
     
-    private ReadOnlyConfiguration getLanguageCache(String key) {
-        ReadOnlyConfiguration cfg = this.languageCache.get(key);
+    private ReadOnlyConfiguration getLanguageCache(String group) {
+        ReadOnlyConfiguration cfg = this.languageCache.get(group);
         if (cfg == null) {
-            Resource res = super.resourceManager.getSelfResource(MESSAGE_RES_PATH + toGroup(key) + ".yml");
+            Resource res = super.resourceManager.getSelfResource(MESSAGE_RES_PATH + toGroup(group) + ".yml");
             if (res == null) return null;
             cfg = ReadOnlyConfiguration.loadConfiguration(res.getInputStream());
-            this.languageCache.put(key, cfg);
+            this.languageCache.put(group, cfg);
         }
         return cfg;
     }
@@ -59,7 +71,7 @@ public class GroupMessageManager extends StandardMessageManager {
     private static String toRealKey(String key) {
         int idx = key.indexOf(GROUP_SEPARATOR);
         if (idx > 0) {
-            return key.substring(idx - 1);
+            return key.substring(idx + 1);
         } else {
             return key;
         }
