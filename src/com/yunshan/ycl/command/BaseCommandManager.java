@@ -69,19 +69,19 @@ public abstract class BaseCommandManager implements CommandManager {
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         String cmdName = args.length > 0 ? args[0] : this.mainCommand;
         if (cmdName == null) {
-            this.messager.info(sender, "command.manager.notMain", cmdName);
+            this.messager.info(sender, "message.command.notMain", cmdName);
             return true;
         }
         Command cmd = this.commands.get(cmdName);
         
         if (cmd != null) {
             if (!cmd.isVaild()) {
-                this.messager.info(sender, "command.manager.invaild", cmdName);
+                this.messager.info(sender, "message.command.invaild", cmdName);
                 return true;
             }
             return cmd.execute(sender, args);
         } else {
-            this.messager.info(sender, "command.manager.noFound", cmdName);
+            this.messager.info(sender, "message.command.noFound", cmdName);
             return true;
         }
     }
