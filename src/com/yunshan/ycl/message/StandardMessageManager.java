@@ -24,7 +24,7 @@ public class StandardMessageManager implements MessageManager {
     protected final LocaleManager   localeManager;
     
     private ReadOnlyConfiguration      languageConfig;
-    private Map<String, MessageFormat> formatCache = Maps.newHashMap();
+    protected final Map<String, MessageFormat> formatCache = Maps.newHashMap();
     
     public StandardMessageManager(ResourceManager resourceManager, LocaleManager localeManager) {
         this.resourceManager = resourceManager;
