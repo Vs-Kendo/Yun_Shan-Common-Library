@@ -45,9 +45,6 @@ public class StandardMessageManager implements MessageManager {
     @Override
     public String getMessage(String key, Object... args) {
         MessageFormat format = this.getMessageFormat(key);
-        if (format == null) {
-            return MISSING_LANGUAGE.format(new Object[] { key });
-        }
         return format.format(args);
     }
     
@@ -61,14 +58,23 @@ public class StandardMessageManager implements MessageManager {
         MessageFormat format = this.formatCache.get(key);
         if (format == null) {
             ReadOnlyConfiguration cfg = this.getLanguageConfig(key);
-            if (cfg == null) return MISSING_LANGUAGE;
+            if (cfg == null) return this.getMissingLanguageFormat(key);
             String msg = cfg.getString(key);
-            if (msg == null) return MISSING_LANGUAGE;
+            if (msg == null) return this.getMissingLanguageFormat(key);
             msg = ChatColor.translateAlternateColorCodes('&', msg);
             format = new MessageFormat(msg, this.localeManager.getFormatLocale());
             this.formatCache.put(key, format);
         }
         return format;
+    }
+    
+    /**
+     * 获取 无法找到本地化信息时的默认信息
+     * @param key 本地化信息的键
+     * @return 无法找到本地化信息时的默认信息
+     */
+    protected MessageFormat getMissingLanguageFormat(String key) {
+        return new MessageFormat(MISSING_LANGUAGE.format(new Object[] { key }));
     }
     
     /**
