@@ -23,12 +23,18 @@ public class StandardMessageManager implements MessageManager {
     protected final ResourceManager resourceManager;
     protected final LocaleManager   localeManager;
     
-    private ReadOnlyConfiguration      languageConfig;
+    private ReadOnlyConfiguration              languageConfig;
     protected final Map<String, MessageFormat> formatCache = Maps.newHashMap();
     
     public StandardMessageManager(ResourceManager resourceManager, LocaleManager localeManager) {
         this.resourceManager = resourceManager;
         this.localeManager = localeManager;
+    }
+    
+    /**
+     * 初始化语言文件丢失的本地化信息
+     */
+    protected void setupMissingLanguageFormat() {
         MISSING_LANGUAGE = this.getMessageFormatFromCache("message.missingLanguage");
         if (MISSING_LANGUAGE == null) {
             MISSING_LANGUAGE = new MessageFormat("missing language:{0}");
