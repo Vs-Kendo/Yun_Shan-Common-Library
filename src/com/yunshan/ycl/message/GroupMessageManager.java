@@ -51,13 +51,10 @@ public class GroupMessageManager extends StandardMessageManager {
     
     @Override
     protected ReadOnlyConfiguration getLanguageConfig(String key) {
-        return this.getGroupLanguageConfig(toGroup(key));
-    }
-    
-    private ReadOnlyConfiguration getGroupLanguageConfig(String group) {
+        String group = toGroup(key);
         ReadOnlyConfiguration cfg = this.languageCache.get(group);
         if (cfg == null) {
-            Resource res = super.resourceManager.getSelfResource(MESSAGE_RES_PATH + toGroup(group) + ".yml");
+            Resource res = super.resourceManager.getSelfResource(MESSAGE_RES_PATH + group + ".yml");
             if (res == null) return null;
             cfg = ReadOnlyConfiguration.loadConfiguration(res.getInputStream());
             this.languageCache.put(group, cfg);
