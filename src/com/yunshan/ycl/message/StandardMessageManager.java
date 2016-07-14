@@ -32,9 +32,9 @@ public class StandardMessageManager implements MessageManager {
     }
     
     /**
-     * 初始化语言文件丢失的本地化信息
+     * 初始化
      */
-    protected void setupMissingLanguageFormat() {
+    protected void setup() {
         MISSING_LANGUAGE = this.getMessageFormat("message.missingLanguage");
         if (MISSING_LANGUAGE == null) {
             MISSING_LANGUAGE = new MessageFormat("missing language:{0}");
