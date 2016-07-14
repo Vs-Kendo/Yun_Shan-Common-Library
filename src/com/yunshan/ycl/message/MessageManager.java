@@ -1,5 +1,7 @@
 package com.yunshan.ycl.message;
 
+import java.text.MessageFormat;
+
 /**
  * 信息管理器
  */
@@ -22,5 +24,14 @@ public interface MessageManager {
      * @return 新建的消息发送者
      */
     Messager createMessager();
+    
+    /**
+     * 获取本地化信息的MessageFormat对象
+     * 
+     * @param key
+     *            本地化信息对应的键
+     * @return 本地化信息的MessageFormat对象
+     */
+    MessageFormat getMessageFormat(String key);
     
 }

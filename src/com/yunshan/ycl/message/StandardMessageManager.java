@@ -55,10 +55,8 @@ public class StandardMessageManager implements MessageManager {
         return new DefaultMessager(this);
     }
     
-    /**
-     * 获取MessageFormat对象
-     */
-    protected MessageFormat getMessageFormat(String key) {
+    @Override
+    public MessageFormat getMessageFormat(String key) {
         MessageFormat format = this.formatCache.get(key);
         if (format == null) {
             ReadOnlyConfiguration cfg = this.getLanguageConfig(key);
