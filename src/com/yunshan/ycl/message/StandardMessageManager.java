@@ -29,6 +29,7 @@ public class StandardMessageManager implements MessageManager {
     public StandardMessageManager(ResourceManager resourceManager, LocaleManager localeManager) {
         this.resourceManager = resourceManager;
         this.localeManager = localeManager;
+        MISSING_LANGUAGE = new MessageFormat("missing language:{0}");
         this.setup();
     }
     
@@ -37,9 +38,6 @@ public class StandardMessageManager implements MessageManager {
      */
     protected void setup() {
         MISSING_LANGUAGE = this.getMessageFormat("message.missingLanguage");
-        if (MISSING_LANGUAGE == null) {
-            MISSING_LANGUAGE = new MessageFormat("missing language:{0}");
-        }
     }
     
     @Override
@@ -70,7 +68,9 @@ public class StandardMessageManager implements MessageManager {
     
     /**
      * 获取 无法找到本地化信息时的默认信息
-     * @param key 本地化信息的键
+     * 
+     * @param key
+     *            本地化信息的键
      * @return 无法找到本地化信息时的默认信息
      */
     protected MessageFormat getMissingLanguageFormat(String key) {
