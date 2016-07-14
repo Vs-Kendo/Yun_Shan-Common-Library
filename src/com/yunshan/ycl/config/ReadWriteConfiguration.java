@@ -56,8 +56,9 @@ public class ReadWriteConfiguration extends ReadOnlyConfiguration {
      * @see org.bukkit.configuration.ConfigurationSection#getConfigurationSection(java.lang.String)
      */
     public ReadWriteConfiguration getReadWriteConfiguration(String path) {
-        return new ReadWriteConfiguration(super.config.getConfigurationSection(path), this.configManager,
-                super.contents);
+        ConfigurationSection section = super.config.getConfigurationSection(path);
+        if (section == null) return null;
+        return new ReadWriteConfiguration(section, this.configManager, super.contents);
     }
     
     /**

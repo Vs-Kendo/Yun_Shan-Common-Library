@@ -119,7 +119,9 @@ public class ReadOnlyConfiguration {
      *      getConfigurationSection(java.lang.String)
      */
     public ReadOnlyConfiguration getReadOnlyConfiguration(String path) {
-        return new ReadOnlyConfiguration(this.config.getConfigurationSection(path), this.contents);
+        ConfigurationSection section = this.config.getConfigurationSection(path);
+        if (section == null) return null;
+        return new ReadOnlyConfiguration(section, this.contents);
     }
     
     /**
