@@ -11,6 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.yunshan.ycl.exception.ExceptionUtils;
 import com.yunshan.ycl.util.IOUtils;
 
 /**
@@ -129,7 +130,7 @@ public class ReadWriteConfiguration extends ReadOnlyConfiguration {
             cfg.loadFromString(content);
             return new ReadWriteConfiguration(cfg, configManager);
         } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
+            ExceptionUtils.handle(e);
             return null;
         }
     }
