@@ -22,10 +22,16 @@ public class GroupMessageManager extends StandardMessageManager {
     private static final char   GROUP_SEPARATOR = '.';
     private static final String DEFAULT_GROUP   = "message";
     
-    private Map<String, ReadOnlyConfiguration> languageCache = Maps.newHashMap();
+    private Map<String, ReadOnlyConfiguration> languageCache;
     
     public GroupMessageManager(ResourceManager resourceManager, LocaleManager localeManager) {
         super(resourceManager, localeManager);
+    }
+    
+    @Override
+    protected void setup() {
+        this.languageCache = Maps.newHashMap();
+        super.setup();
     }
     
     @Override
