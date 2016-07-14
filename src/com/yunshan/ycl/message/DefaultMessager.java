@@ -92,6 +92,8 @@ public class DefaultMessager implements Messager {
             String formatMsg = formatMsgs[i];
             if (!formatMsg.startsWith(NO_MSG_TYPE_PREFIX)) {
                 formatMsg = this.messageManager.getMessage(MSG_TYPE_PREFIX + msgType, formatMsg);
+            } else {
+                formatMsg = formatMsg.substring(NO_MSG_TYPE_PREFIX.length());
             }
             formatMsgs[i] = formatMsg;
         }
