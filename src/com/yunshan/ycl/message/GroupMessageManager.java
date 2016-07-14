@@ -29,7 +29,7 @@ public class GroupMessageManager extends StandardMessageManager {
     }
     
     @Override
-    protected MessageFormat getMessageFormatFromCache(String key) {
+    protected MessageFormat getMessageFormat(String key) {
         MessageFormat format = this.formatCache.get(key);
         if (format == null) {
             ReadOnlyConfiguration cfg = this.getLanguageConfig(key);

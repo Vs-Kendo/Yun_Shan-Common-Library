@@ -35,7 +35,7 @@ public class StandardMessageManager implements MessageManager {
      * 初始化语言文件丢失的本地化信息
      */
     protected void setupMissingLanguageFormat() {
-        MISSING_LANGUAGE = this.getMessageFormatFromCache("message.missingLanguage");
+        MISSING_LANGUAGE = this.getMessageFormat("message.missingLanguage");
         if (MISSING_LANGUAGE == null) {
             MISSING_LANGUAGE = new MessageFormat("missing language:{0}");
         }
@@ -43,7 +43,7 @@ public class StandardMessageManager implements MessageManager {
     
     @Override
     public String getMessage(String key, Object... args) {
-        MessageFormat format = this.getMessageFormatFromCache(key);
+        MessageFormat format = this.getMessageFormat(key);
         if (format == null) {
             return MISSING_LANGUAGE.format(new Object[] { key });
         }
@@ -56,9 +56,9 @@ public class StandardMessageManager implements MessageManager {
     }
     
     /**
-     * 从缓存获取MessageFormat对象
+     * 获取MessageFormat对象
      */
-    protected MessageFormat getMessageFormatFromCache(String key) {
+    protected MessageFormat getMessageFormat(String key) {
         MessageFormat format = this.formatCache.get(key);
         if (format == null) {
             ReadOnlyConfiguration cfg = this.getLanguageConfig(key);
