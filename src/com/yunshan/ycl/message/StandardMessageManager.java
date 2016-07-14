@@ -29,6 +29,7 @@ public class StandardMessageManager implements MessageManager {
     public StandardMessageManager(ResourceManager resourceManager, LocaleManager localeManager) {
         this.resourceManager = resourceManager;
         this.localeManager = localeManager;
+        this.setup();
     }
     
     /**
