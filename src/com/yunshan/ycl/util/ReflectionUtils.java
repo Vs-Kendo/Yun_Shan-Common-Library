@@ -103,14 +103,27 @@ public final class ReflectionUtils {
      * 从调用栈路径遍历每个类，并通过<code>clazz.getResource(resourceName);</code>尝试获取资源
      * 
      * @param resourceName
-     *            资源名，前面加"/"表示绝对路径
+     *            资源名，需要完整名称，不接受"/"开头的形式
      * @return 资源集合
      */
     public static Collection<Resource> traceResource(String resourceName) {
+        return traceResource(resourceName, new Throwable().getStackTrace());
+    }
+    
+    /**
+     * 跟踪资源
+     * <p>
+     * 从指定调用栈路径遍历每个类，并通过<code>clazz.getResource(resourceName);</code>尝试获取资源
+     * 
+     * @param resourceName
+     *            资源名，需要完整名称，不接受"/"开头的形式
+     * @return 资源集合
+     */
+    public static Collection<Resource> traceResource(String resourceName, StackTraceElement[] stackTrace) {
         Objects.requireNonNull(resourceName);
-        StackTraceElement[] stackTraceElements = new Throwable().getStackTrace();
+        Objects.requireNonNull(stackTrace);
         Collection<Resource> resources = Sets.newHashSet();
-        for (StackTraceElement stack : stackTraceElements) {
+        for (StackTraceElement stack : stackTrace) {
             try {
                 Class<?> clazz = Class.forName(stack.getClassName());
                 if (clazz.getClassLoader() == null) break; //无ClassLoader的类意味着已经跟踪到Java核心部分了
