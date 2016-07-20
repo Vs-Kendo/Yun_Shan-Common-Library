@@ -18,6 +18,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import com.yunshan.ycl.exception.ExceptionUtils;
 import com.yunshan.ycl.util.IOUtils;
 
 /**
@@ -492,7 +493,7 @@ public class ReadOnlyConfiguration {
             cfg.loadFromString(content);
             return new ReadOnlyConfiguration(cfg);
         } catch (IOException | InvalidConfigurationException e) {
-            e.printStackTrace();
+            ExceptionUtils.handle(e);
             return null;
         }
         
