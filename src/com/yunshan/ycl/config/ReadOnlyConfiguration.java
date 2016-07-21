@@ -375,8 +375,7 @@ public class ReadOnlyConfiguration {
     }
     
     /**
-     * @see org.bukkit.configuration.ConfigurationSection#
-     *      isConfigurationSection(java.lang.String)
+     * @see org.bukkit.configuration.ConfigurationSection#isConfigurationSection(java.lang.String)
      */
     public boolean isConfigurationSection(String path) {
         return this.config.isConfigurationSection(path);

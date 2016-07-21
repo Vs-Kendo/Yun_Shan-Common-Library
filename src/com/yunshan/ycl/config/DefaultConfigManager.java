@@ -19,7 +19,6 @@ import com.yunshan.ycl.resource.ResourceManager;
  * 作者：YunShan
  * <p>
  * 创建日期：2016年6月30日
- * <p>
  */
 public class DefaultConfigManager implements ConfigManager {
     

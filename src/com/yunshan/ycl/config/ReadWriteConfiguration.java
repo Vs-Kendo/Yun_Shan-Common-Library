@@ -76,7 +76,7 @@ public class ReadWriteConfiguration extends ReadOnlyConfiguration {
      * @param path
      *            要保存到的路径(相对路径)
      * @return 保存成功返回true，写入失败返回false
-     * @see com.yunshan.ycl.config.DefaultConfigManager#saveConfig(YamlConfiguration,String)
+     * @see com.yunshan.ycl.config.DefaultConfigManager#saveConfig(ReadWriteConfiguration,String)
      */
     public boolean save(String path) {
         return this.configManager.saveConfig(this, path);
