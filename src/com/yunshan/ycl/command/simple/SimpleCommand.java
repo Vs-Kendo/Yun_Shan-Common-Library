@@ -20,7 +20,7 @@ import com.google.common.collect.Collections2;
 import com.yunshan.ycl.command.Command;
 import com.yunshan.ycl.command.simple.ArgConverter.ArgConverterFailException;
 import com.yunshan.ycl.command.simple.ArgConverterManager.MissingArgConverterExecption;
-import com.yunshan.ycl.util.ReflectionUtil;
+import com.yunshan.ycl.util.ReflectionUtils;
 
 /**
  * 简易命令类
@@ -189,7 +189,7 @@ public abstract class SimpleCommand implements Command {
     protected static boolean init(SimpleCommand command, ArgConverterManager converterManager)
             throws MissingArgConverterExecption {
         Class<? extends SimpleCommand> cls = command.getClass();
-        Method handler = ReflectionUtil.getFirstMethodByAnnotation(cls, CommandHandler.class);
+        Method handler = ReflectionUtils.getFirstMethodByAnnotation(cls, CommandHandler.class);
         if (handler == null) {
             //TODO 没有带命令处理器注解的方法
             return false;
@@ -239,7 +239,7 @@ public abstract class SimpleCommand implements Command {
             targetHandler = targetHandler.asSpreader(String[].class, filters.length);
         }
         command.maxArgsLength = params.length;
-        int optionIdx = ReflectionUtil.findFirstAnnotationIndexInParameters(handler, OptionalArgStart.class);
+        int optionIdx = ReflectionUtils.findFirstAnnotationIndexInParameters(handler, OptionalArgStart.class);
         if (optionIdx != -1) {
             command.minArgsLength = optionIdx;
         }
