@@ -80,7 +80,10 @@ public class StandardMessageManager implements MessageManager {
     }
     
     /**
-     * 获取语言文件配置
+     * 获取自身语言文件配置
+     * 
+     * @param key 本地化信息的键
+     * @return 自身语言文件配置
      */
     protected ReadOnlyConfiguration getLanguageConfig(String key) {
         if (this.langConfig == null) {

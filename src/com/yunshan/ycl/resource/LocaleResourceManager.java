@@ -20,8 +20,10 @@ public class LocaleResourceManager extends StandardResourceManager {
     private final LocaleManager localeManager;
     
     /**
+     * @param plugin
+     *            要管理资源的插件
      * @param localeManager
-     *        本地化管理器
+     *            本地化管理器
      */
     public LocaleResourceManager(JavaPlugin plugin, LocaleManager localeManager) {
         super(plugin);

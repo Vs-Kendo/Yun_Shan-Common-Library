@@ -142,7 +142,7 @@ public abstract class SimpleCommand implements Command {
     }
     
     /**
-     * 当 <b>命令参数个数</b><code> < </code><b>必填参数个数</b> 时会被调用
+     * 当 <b>命令参数个数</b><code> &lt; </code><b>必填参数个数</b> 时会被调用
      * 
      * @param sender
      *            命令发生者
@@ -155,7 +155,7 @@ public abstract class SimpleCommand implements Command {
     }
     
     /**
-     * 当 <b>命令参数个数</b><code> > </code><b>必填参数个数+可选参数个数</b> 时会被调用
+     * 当 <b>命令参数个数</b><code> &gt; </code><b>必填参数个数+可选参数个数</b> 时会被调用
      * 
      * @param sender
      *            命令发生者

@@ -22,7 +22,7 @@ public interface Messager {
     /**
      * 发送调试信息
      * 
-     * @param debugLvl
+     * @param debugLevel
      *            调试级别，若当前调试级别低于此调试级别则该条信息不会发送
      * @param receiver
      *            信息接收者
@@ -60,8 +60,6 @@ public interface Messager {
     /**
      * 向控制台发送普通信息
      * 
-     * @param receiver
-     *            信息接收者
      * @param msgKey
      *            信息的键
      * @param args
@@ -73,23 +71,19 @@ public interface Messager {
     /**
      * 向控制台发送调试信息
      * 
-     * @param debugLvl
+     * @param debugLevel
      *            调试级别，若当前调试级别低于此调试级别则该条信息不会向控制台发送
-     * @param receiver
-     *            信息接收者
      * @param msgKey
      *            信息的键
      * @param args
      *            信息文本中的参数列表
-     * @see #debug(CommandSender, String, Object...)
+     * @see #debug(int, CommandSender, String, Object...)
      */
     void debugConsole(int debugLevel, String msgKey, Object... args);
     
     /**
      * 向控制台发送警告信息
      * 
-     * @param receiver
-     *            信息接收者
      * @param msgKey
      *            信息的键
      * @param args
@@ -101,8 +95,6 @@ public interface Messager {
     /**
      * 向控制台发送错误信息
      * 
-     * @param receiver
-     *            信息接收者
      * @param msgKey
      *            信息的键
      * @param args

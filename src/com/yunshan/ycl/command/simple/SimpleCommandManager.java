@@ -8,10 +8,8 @@ import com.yunshan.ycl.message.Messager;
 /**
  * 简单命令管理器
  * <p>
- * 作者：YunShan
- * <p>
+ * 作者：YunShan<br>
  * 创建日期：2016年6月30日
- * <p>
  */
 public class SimpleCommandManager extends BaseCommandManager {
     
@@ -33,13 +31,11 @@ public class SimpleCommandManager extends BaseCommandManager {
     }
     
     /**
-     * 简单命令未成功初始化异常<br/>
+     * 简单命令未成功初始化异常<br>
      * 该异常是在{@link SimpleCommandManager}注册命令时发现未成功初始化的SimpleCommand实例时抛出的
      * <p>
-     * 作者：YunShan
-     * <p>
+     * 作者：YunShan<br>
      * 创建日期：2016年6月30日
-     * <p>
      */
     public class SimpleCommandNotInitialExecption extends NoneStackRuntimeException {
         

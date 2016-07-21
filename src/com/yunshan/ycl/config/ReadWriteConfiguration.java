@@ -31,6 +31,10 @@ public class ReadWriteConfiguration extends ReadOnlyConfiguration {
     }
     
     /**
+     * @param path
+     *            Path of the value to set.
+     * @param value
+     *            Value to set the default to.
      * @see org.bukkit.configuration.ConfigurationSection#addDefault(java.lang.String,
      *      java.lang.Object)
      */
@@ -39,22 +43,33 @@ public class ReadWriteConfiguration extends ReadOnlyConfiguration {
     }
     
     /**
+     * @param path
+     *            Path to create the section at.
+     * @param map
+     *            The values to used.
      * @see org.bukkit.configuration.ConfigurationSection#createSection(java.lang.String,
      *      java.util.Map)
+     * @return Newly created section
      */
     public ConfigurationSection createSection(String path, Map<?, ?> map) {
         return super.config.createSection(path, map);
     }
     
     /**
+     * @param path
+     *            Path to create the section at.
      * @see org.bukkit.configuration.ConfigurationSection#createSection(java.lang.String)
+     * @return Newly created section
      */
     public ReadWriteConfiguration createSection(String path) {
         return new ReadWriteConfiguration(super.config.createSection(path), this.configManager, super.contents);
     }
     
     /**
+     * @param path
+     *            Path of the ConfigurationSection to get.
      * @see org.bukkit.configuration.ConfigurationSection#getConfigurationSection(java.lang.String)
+     * @return Requested ConfigurationSection.
      */
     public ReadWriteConfiguration getReadWriteConfiguration(String path) {
         ConfigurationSection section = super.config.getConfigurationSection(path);
@@ -63,6 +78,10 @@ public class ReadWriteConfiguration extends ReadOnlyConfiguration {
     }
     
     /**
+     * @param path
+     *            Path of the object to set.
+     * @param value
+     *            New value to set the path to.
      * @see org.bukkit.configuration.ConfigurationSection#set(java.lang.String,
      *      java.lang.Object)
      */

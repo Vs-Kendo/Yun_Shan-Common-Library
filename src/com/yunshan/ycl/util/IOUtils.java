@@ -9,10 +9,8 @@ import java.nio.charset.StandardCharsets;
 /**
  * I/O 工具类
  * <p>
- * 作者：YunShan
- * <p>
+ * 作者：YunShan<br>
  * 创建日期：2016年6月30日
- * <p>
  */
 public final class IOUtils {
     
@@ -23,7 +21,7 @@ public final class IOUtils {
      * 获取UTF-8编码的输入流读取器
      * 
      * @param stream
-     *        输入流
+     *            输入流
      * @return UTF-8编码的输入流读取器
      */
     public static InputStreamReader getUTF8InputStreamReader(InputStream stream) {
@@ -34,9 +32,9 @@ public final class IOUtils {
      * 获取指定编码的输入流读取器
      * 
      * @param stream
-     *        输入流
+     *            输入流
      * @param charset
-     *        输入流读取器的编码
+     *            输入流读取器的编码
      * @return 指定编码的输入流读取器
      */
     public static InputStreamReader getInputStreamReader(InputStream stream, Charset charset) {
@@ -49,10 +47,10 @@ public final class IOUtils {
      * 该方法会自动调用{@link InputStreamReader}的{@link InputStreamReader#close()}方法
      * 
      * @param reader
-     *        输入流读取器
+     *            输入流读取器
      * @return 输入流中的所有内容
      * @throws IOException
-     *         出现I/O异常时会抛出此异常
+     *             出现I/O异常时会抛出此异常
      */
     public static String readAll(InputStreamReader reader) throws IOException {
         char[] buffer = new char[1024];

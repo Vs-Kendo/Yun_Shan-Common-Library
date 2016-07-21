@@ -6,10 +6,8 @@ import java.net.URL;
 /**
  * 表示一个资源
  * <p>
- * 作者：YunShan
- * <p>
+ * 作者：YunShan <br>
  * 创建日期：2016年7月1日
- * <p>
  */
 public interface Resource {
     
@@ -21,7 +19,7 @@ public interface Resource {
     InputStream getInputStream();
     
     /**
-     * 获取资源的URI(Uniform Resource Identifier) 
+     * 获取资源的URI(Uniform Resource Identifier)
      * 
      * @return 资源的URI，获取失败时返回null
      */

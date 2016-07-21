@@ -13,10 +13,8 @@ import com.yunshan.ycl.message.NullMessager;
 /**
  * 基础命令管理器
  * <p>
- * 作者：YunShan
- * <p>
+ * 作者：YunShan<br>
  * 创建日期：2016年6月30日
- * <p>
  */
 public abstract class BaseCommandManager implements CommandManager {
     

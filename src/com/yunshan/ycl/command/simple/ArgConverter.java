@@ -61,7 +61,7 @@ public abstract class ArgConverter<T> {
     /**
      * 转换参数
      * <p>
-     * 将字符串类型的参数转换成对象<br/>
+     * 将字符串类型的参数转换成对象<br>
      * <b>注意：对于相同的字符串，应返回相同的结果</b>
      * 
      * @param arg

@@ -61,8 +61,10 @@ public class ArgConverterManager {
      * <p>
      * 若已存在结果类型为cls的参数转换器则会注册失败
      * 
-     * @param cls
+     * @param <T>
      *            参数转换器的结果类型
+     * @param cls
+     *            参数转换器的结果类型的Class对象
      * @param converter
      *            参数转换器
      * @return 成功注册返回true，否则返回false
@@ -79,8 +81,10 @@ public class ArgConverterManager {
     /**
      * 获取指定类型的参数转换器
      * 
+     * @param <T>
+     *            参数转换器的结果类型
      * @param cls
-     *            参数转换器的转换结果类型
+     *            参数转换器的结果类型的Class对象
      * @return 转换结果为cls类对象的参数转换器
      */
     @SuppressWarnings("unchecked")
@@ -98,7 +102,7 @@ public class ArgConverterManager {
      *             若clss参数中有某个元素为null则会抛出此异常
      * @throws MissingArgConverterExecption
      *             若无法找到某个参数的参数转换器则会抛出此异常
-     * @see {@link #getArgConverter(Class)}
+     * @see #getArgConverter(Class)
      */
     public ArgConverter<?>[] getArgConverters(Class<?>[] clss) throws MissingArgConverterExecption {
         ArgConverter<?>[] handles = new ArgConverter<?>[clss.length];

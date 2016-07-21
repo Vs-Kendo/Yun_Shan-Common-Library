@@ -18,10 +18,8 @@ import com.yunshan.ycl.resource.Resource;
 /**
  * Bukkit工具
  * <p>
- * 作者：YunShan
- * <p>
+ * 作者：YunShan<br>
  * 创建日期：2016年7月20日
- * <p>
  */
 public final class BukkitUtils {
     

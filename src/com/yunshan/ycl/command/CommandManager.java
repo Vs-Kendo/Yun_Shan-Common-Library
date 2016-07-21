@@ -16,7 +16,7 @@ public interface CommandManager extends CommandExecutor {
      * 若已存在同名命令会注册失败
      * 
      * @param command
-     *        要注册的命令
+     *            要注册的命令
      * @return 若已存在同名命令，则返回false,否则返回true
      */
     boolean registerCommand(Command command);
@@ -25,7 +25,7 @@ public interface CommandManager extends CommandExecutor {
      * 反注册命令
      * 
      * @param command
-     *        要反注册的命令
+     *            要反注册的命令
      * @return 反注册成功返回true,若指定的命令不存在会返回false
      */
     boolean unregisterCommand(Command command);
@@ -34,7 +34,7 @@ public interface CommandManager extends CommandExecutor {
      * 从已注册的命令中获取指定命令
      * 
      * @param name
-     *        命令名
+     *            命令名
      * @return 指定名字的命令，若没找到则返回null
      */
     Command getCommand(String name);
@@ -45,7 +45,8 @@ public interface CommandManager extends CommandExecutor {
      * 主命令是当用户未输入任何命令参数时所执行的命令(此处的命令参数指用户在游戏中实际输入的参数)
      * 
      * @param cmdName
-     *        主命令的名字
+     *            主命令的名字
+     * @return 自身实例
      */
     CommandManager setMainCommand(String cmdName);
     
@@ -55,7 +56,7 @@ public interface CommandManager extends CommandExecutor {
      * 设为null时会使命令管理器失去所有信息输出能力，因此不建议设为null
      * 
      * @param messager
-     *        信息发生者
+     *            信息发生者
      */
     void setMessager(Messager messager);
     
@@ -63,9 +64,9 @@ public interface CommandManager extends CommandExecutor {
      * 设置要管理的命令
      * 
      * @param handle
-     *        要管理的主命令
+     *            要管理的主命令
      * @param plugin
-     *        命令所属的插件
+     *            命令所属的插件
      * @return 返回自身
      */
     CommandManager setHandleCommand(String handle, JavaPlugin plugin);

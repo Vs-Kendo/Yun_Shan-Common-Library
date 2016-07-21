@@ -9,10 +9,8 @@ import com.yunshan.ycl.exception.ExceptionUtils;
 /**
  * 依赖于URL的资源
  * <p>
- * 作者：YunShan
- * <p>
+ * 作者：YunShan <br>
  * 创建日期：2016年7月1日
- * <p>
  */
 public class URLResource implements Resource {
     

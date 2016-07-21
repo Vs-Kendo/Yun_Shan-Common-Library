@@ -117,6 +117,8 @@ public final class ReflectionUtils {
      * 
      * @param resourceName
      *            资源名，需要完整名称，不接受"/"开头的形式
+     * @param stackTrace
+     *            指定的调用栈路径
      * @return 资源集合
      */
     public static Collection<Resource> traceResource(String resourceName, StackTraceElement[] stackTrace) {

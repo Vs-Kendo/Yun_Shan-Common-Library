@@ -14,7 +14,7 @@ import com.yunshan.ycl.resource.ResourceManager;
 /**
  * 分组的信息管理器
  * <p>
- * 此管理器使用键中第一次出现的<code>'.'</code>作为分组依据，其前面的字符为组别，后面的字符为实际文件中的键<br/>
+ * 此管理器使用键中第一次出现的<code>'.'</code>作为分组依据，其前面的字符为组别，后面的字符为实际文件中的键<br>
  * 未出现<code>'.'</code>时将使用默认的分组：message
  */
 public class GroupMessageManager extends StandardMessageManager {
