@@ -37,11 +37,12 @@ public class GroupMessageManager extends StandardMessageManager {
     @Override
     public MessageFormat getMessageFormat(String key) {
         MessageFormat format = this.formatCache.get(key);
+        if (format == null) format = this.getUserMessageFormat(key);
         if (format == null) {
             ReadOnlyConfiguration cfg = this.getLanguageConfig(key);
-            if (cfg == null) return super.getMissingLanguageFormat(key);
+            if (cfg == null) return this.getMissingLanguageFormat(key);
             String msg = cfg.getString(toRealKey(key)/* 转换为实际配置中的key */);
-            if (msg == null) return super.getMissingLanguageFormat(key);
+            if (msg == null) return this.getMissingLanguageFormat(key);
             msg = ChatColor.translateAlternateColorCodes('&', msg);
             format = new MessageFormat(msg, this.localeManager.getFormatLocale());
             this.formatCache.put(key, format);

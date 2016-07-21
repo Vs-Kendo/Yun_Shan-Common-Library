@@ -23,7 +23,8 @@ public class StandardMessageManager implements MessageManager {
     protected final ResourceManager resourceManager;
     protected final LocaleManager   localeManager;
     
-    private ReadOnlyConfiguration              languageConfig;
+    private ReadOnlyConfiguration              langConfig;
+    private ReadOnlyConfiguration              userLangCfg;
     protected final Map<String, MessageFormat> formatCache = Maps.newHashMap();
     
     public StandardMessageManager(ResourceManager resourceManager, LocaleManager localeManager) {
@@ -54,6 +55,7 @@ public class StandardMessageManager implements MessageManager {
     @Override
     public MessageFormat getMessageFormat(String key) {
         MessageFormat format = this.formatCache.get(key);
+        if (format == null) format = this.getUserMessageFormat(key);
         if (format == null) {
             ReadOnlyConfiguration cfg = this.getLanguageConfig(key);
             if (cfg == null) return this.getMissingLanguageFormat(key);
@@ -81,11 +83,46 @@ public class StandardMessageManager implements MessageManager {
      * 获取语言文件配置
      */
     protected ReadOnlyConfiguration getLanguageConfig(String key) {
-        if (this.languageConfig == null) {
+        if (this.langConfig == null) {
             Resource res = this.resourceManager.getSelfResource(MESSAGE_RES_PATH + "message.yml");
             if (res == null) return null;
-            this.languageConfig = ReadOnlyConfiguration.loadConfiguration(res.getInputStream());
+            this.langConfig = ReadOnlyConfiguration.loadConfiguration(res.getInputStream());
         }
-        return this.languageConfig;
+        return this.langConfig;
+    }
+    
+    /**
+     * 获取用户的语言文件配置
+     * 
+     * @return 用户的语言文件配置
+     */
+    protected ReadOnlyConfiguration getUserLanguageConfig() {
+        if (this.userLangCfg == null) {
+            Resource res = this.resourceManager.getFileResource("message.yml");
+            if (res == null) return null;
+            this.userLangCfg = ReadOnlyConfiguration.loadConfiguration(res.getInputStream());
+        }
+        return this.userLangCfg;
+    }
+    
+    /**
+     * 获取用户定义的信息的MessageFormat对象
+     * 
+     * @param key
+     *            信息对应的键
+     * @return 信息的MessageFormat对象
+     */
+    protected MessageFormat getUserMessageFormat(String key) {
+        MessageFormat format = this.formatCache.get(key);
+        if (format == null) {
+            ReadOnlyConfiguration cfg = this.getUserLanguageConfig();
+            if (cfg == null) return null;
+            String msg = cfg.getString(key);
+            if (msg == null) return null;
+            msg = ChatColor.translateAlternateColorCodes('&', msg);
+            format = new MessageFormat(msg, this.localeManager.getFormatLocale());
+            this.formatCache.put(key, format);
+        }
+        return format;
     }
 }
