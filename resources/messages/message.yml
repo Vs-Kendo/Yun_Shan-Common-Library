@@ -1,20 +1,20 @@
-format:
-  info: '§e[§aYCL§e]§a{0}'
-  debug: '§e[§aYCL§e]§a调试信息：{0}'
-  warning: '§e[§aYCL§e]§c警告信息：{0}'
-  error: '§e[§aYCL§e]§c错误信息：{0}'
-inter:
-  unhandleException:
-    before: |
-      插件运行过程中出现异常！
-      异常类型：{0}
-      异常信息：{1}
-      异常栈如下：
-    after: |
-      导致异常出现的插件调用栈如下：
-      {2}
-      若此异常频繁出现，请联系作者！
-    pluginTrace:
-      one: '§b{0}'
-      separator: '§2->'
-missingLanguage: "$$§e[§aYCL§e]§c无法找到本地化信息：{0}"
+message:
+  format:
+    info: '§e[§aYCL§e]§a{0}'
+    debug: '§e[§aYCL§e]§a调试信息：{0}'
+    warning: '§e[§aYCL§e]§c警告信息：{0}'
+    error: '§e[§aYCL§e]§c错误信息：{0}'
+  missingLanguage: "$$§e[§aYCL§e]§c无法找到本地化信息：{0}"
+unhandleException:
+  before: |
+    插件运行过程中出现异常！
+    异常类型：{0}
+    异常信息：{1}
+    异常栈如下：
+  after: |
+    导致异常出现的插件调用栈如下：
+    {2}
+    若此异常频繁出现，请联系作者！
+  pluginTrace:
+    one: '§b{0}'
+    separator: '§2->'
