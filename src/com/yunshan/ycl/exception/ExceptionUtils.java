@@ -17,6 +17,7 @@ public final class ExceptionUtils {
     }
     
     private static final ExceptionHandler DEFAULT_HANDLER = new ExceptionHandler() {
+        
         @Override
         public void handle(Throwable t) {
             t.printStackTrace();
@@ -28,7 +29,8 @@ public final class ExceptionUtils {
     /**
      * 设置异常处理器
      * 
-     * @param handler 要使用的异常处理器
+     * @param handler
+     *            要使用的异常处理器
      */
     public static void setExceptionHandler(ExceptionHandler handler) {
         if (handler != null) {
@@ -52,11 +54,13 @@ public final class ExceptionUtils {
      */
     public static void handle(Throwable t) {
         List<Plugin> plugins = BukkitUtils.tracePlugin(t.getStackTrace());
+        ExceptionHandler handler;
         if (!plugins.isEmpty()) {
-            exceptionHandler.get(plugins.get(0)).handle(t);
+            handler = exceptionHandler.get(plugins.get(0));
         } else {
-            DEFAULT_HANDLER.handle(t);
+            handler = DEFAULT_HANDLER;
         }
+        handler.handle(t);
     }
     
 }
