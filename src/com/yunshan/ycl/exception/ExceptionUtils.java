@@ -28,7 +28,7 @@ public final class ExceptionUtils {
     /**
      * 设置异常处理器
      * 
-     * @param 要使用的异常处理器
+     * @param handler 要使用的异常处理器
      */
     public static void setExceptionHandler(ExceptionHandler handler) {
         if (handler != null) {
