@@ -8,24 +8,29 @@ repositories {
     jcenter()
     
     maven {
-	    name = 'Bukkit'
-	    url = 'http://repo.bukkit.org/content/repositories/public/'
-	}
+        name = 'Bukkit'
+        url = 'http://repo.bukkit.org/content/repositories/public/'
+    }
     
     maven {
-	    name = 'Guava'
-	    url = 'https://mvnrepository.com/artifact/com.google.guava/guava'
-	}
+        name = 'Guava'
+        url = 'https://mvnrepository.com/artifact/com.google.guava/guava'
+    }
 }
 
-// 编译目标版本
+// 源码版本
 sourceCompatibility = 1.7
+// 编译目标版本
+targetCompatibility = 1.7
 
 // 源码位置定义
 sourceSets {
    main {
       java {
          srcDirs = ['src']
+      }
+      resources {
+         srcDirs = ['resources']
       }
    }
    
@@ -36,6 +41,18 @@ sourceSets {
    }
 }
 
+javadoc {
+    options {// javadoc使用utf-8编码
+        encoding = 'utf-8'
+        docEncoding = 'utf-8'
+        charSet = 'utf-8'
+    }
+}
+
+compileJava {
+    options.encoding = 'utf-8' // 源码为utf-8编码
+}
+
 // In this section you declare the dependencies for your production and test code
 dependencies {
     // The production code uses the SLF4J logging API at compile time
@@ -43,7 +60,7 @@ dependencies {
     // 1.7.2BukkitAPI
     compile 'org.bukkit:bukkit:1.7.2-R0.3'
     // Guava
-    compile 'com.google.guava:guava:18.0'
+    compile 'com.google.guava:guava:11.0'
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the
     // testCompile dependency to testCompile 'org.testng:testng:6.8.1' and add
