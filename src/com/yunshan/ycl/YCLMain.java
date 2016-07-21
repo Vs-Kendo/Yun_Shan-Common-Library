@@ -47,15 +47,15 @@ public class YCLMain extends JavaPlugin {
                 t.printStackTrace();
                 Iterator<Plugin> plugins = BukkitUtils.tracePlugin(t.getStackTrace()).iterator();
                 StringBuilder pluginNames = new StringBuilder();
+                Plugin pl = null;
                 while (plugins.hasNext()) {
-                    Plugin pl = plugins.next();
+                    pl = plugins.next();
                     if (!plugins.hasNext()) break;// 跳过最后一个
                     pluginNames.append(messageManager.getMessage("unhandleException.pluginTrace.one", pl.getName()))
                             .append(messageManager.getMessage("unhandleException.pluginTrace.separator"));
                 }
-                if (plugins.hasNext()) {// 最后一个不加分隔符
-                    pluginNames.append(
-                            messageManager.getMessage("unhandleException.pluginTrace.one", plugins.next().getName()));
+                if (pl != null) {// 最后一个不加分隔符
+                    pluginNames.append(messageManager.getMessage("unhandleException.pluginTrace.one", pl.getName()));
                 }
                 messager.errorConsole("unhandleException.after", t.getClass().getName(), t.getMessage(),
                         pluginNames.toString());
