@@ -1,5 +1,6 @@
 package com.yunshan.ycl.command;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,7 @@ public abstract class BaseCommandManager implements CommandManager {
     protected Map<String, Command> commands = Maps.newHashMap();
     
     private PluginCommand handleCmd;
-    private String handleCmdName;
+    private String        handleCmdName;
     
     protected String mainCommand;
     
@@ -80,9 +81,15 @@ public abstract class BaseCommandManager implements CommandManager {
                 this.messager.info(sender, "message.command.invaild", this.handleCmdName, cmdName);
                 return true;
             }
+            if (args.length >= 2) {
+                args = Arrays.copyOfRange(args, 1, args.length);
+            } else {
+                args = new String[0];
+            }
             boolean usageRight = cmd.execute(sender, args);
             if (!usageRight) {
-                this.messager.info(sender, "command.usage." + this.handleCmdName + "." + cmdName, this.handleCmdName, cmdName);
+                this.messager.info(sender, "command.usage." + this.handleCmdName + "." + cmdName, this.handleCmdName,
+                        cmdName);
             }
             return true;
         } else {
