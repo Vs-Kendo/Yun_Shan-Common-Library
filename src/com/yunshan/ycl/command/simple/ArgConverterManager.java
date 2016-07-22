@@ -3,6 +3,10 @@ package com.yunshan.ycl.command.simple;
 import java.util.Map;
 import java.util.Objects;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+
 import com.google.common.collect.Maps;
 
 /**
@@ -25,11 +29,162 @@ public class ArgConverterManager {
                 return Integer.valueOf(-1);
             }
         });
+        INTERNAL_CONVERTERS.put(Integer.class, new ArgConverter<Integer>(Integer.class) {
+            
+            @Override
+            public Integer convertArg(String arg) {
+                return Integer.valueOf(arg);
+            }
+            
+            @Override
+            public Integer getDefaultVaule() {
+                return Integer.valueOf(-1);
+            }
+        });
+        INTERNAL_CONVERTERS.put(short.class, new ArgConverter<Short>(short.class) {
+            
+            @Override
+            public Short convertArg(String arg) {
+                return Short.valueOf(arg);
+            }
+            
+            @Override
+            public Short getDefaultVaule() {
+                return Short.valueOf((short) -1);
+            }
+        });
+        INTERNAL_CONVERTERS.put(Short.class, new ArgConverter<Short>(Short.class) {
+            
+            @Override
+            public Short convertArg(String arg) {
+                return Short.valueOf(arg);
+            }
+            
+            @Override
+            public Short getDefaultVaule() {
+                return Short.valueOf((short) -1);
+            }
+        });
+        INTERNAL_CONVERTERS.put(byte.class, new ArgConverter<Byte>(byte.class) {
+            
+            @Override
+            public Byte convertArg(String arg) {
+                return Byte.valueOf(arg);
+            }
+            
+            @Override
+            public Byte getDefaultVaule() {
+                return Byte.valueOf((byte) -1);
+            }
+        });
+        INTERNAL_CONVERTERS.put(Byte.class, new ArgConverter<Byte>(Byte.class) {
+            
+            @Override
+            public Byte convertArg(String arg) {
+                return Byte.valueOf(arg);
+            }
+            
+            @Override
+            public Byte getDefaultVaule() {
+                return Byte.valueOf((byte) -1);
+            }
+        });
+        INTERNAL_CONVERTERS.put(long.class, new ArgConverter<Long>(long.class) {
+            
+            @Override
+            public Long convertArg(String arg) {
+                return Long.valueOf(arg);
+            }
+            
+            @Override
+            public Long getDefaultVaule() {
+                return Long.valueOf(-1);
+            }
+        });
+        INTERNAL_CONVERTERS.put(Long.class, new ArgConverter<Long>(Long.class) {
+            
+            @Override
+            public Long convertArg(String arg) {
+                return Long.valueOf(arg);
+            }
+            
+            @Override
+            public Long getDefaultVaule() {
+                return Long.valueOf(-1);
+            }
+        });
+        INTERNAL_CONVERTERS.put(float.class, new ArgConverter<Float>(float.class) {
+            
+            @Override
+            public Float convertArg(String arg) {
+                return Float.valueOf(arg);
+            }
+            
+            @Override
+            public Float getDefaultVaule() {
+                return Float.valueOf(-1);
+            }
+        });
+        INTERNAL_CONVERTERS.put(Float.class, new ArgConverter<Float>(Float.class) {
+            
+            @Override
+            public Float convertArg(String arg) {
+                return Float.valueOf(arg);
+            }
+            
+            @Override
+            public Float getDefaultVaule() {
+                return Float.valueOf(-1);
+            }
+        });
+        INTERNAL_CONVERTERS.put(double.class, new ArgConverter<Double>(double.class) {
+            
+            @Override
+            public Double convertArg(String arg) {
+                return Double.valueOf(arg);
+            }
+            
+            @Override
+            public Double getDefaultVaule() {
+                return Double.valueOf(-1);
+            }
+        });
+        INTERNAL_CONVERTERS.put(Double.class, new ArgConverter<Double>(Double.class) {
+            
+            @Override
+            public Double convertArg(String arg) {
+                return Double.valueOf(arg);
+            }
+            
+            @Override
+            public Double getDefaultVaule() {
+                return Double.valueOf(-1);
+            }
+        });
         INTERNAL_CONVERTERS.put(String.class, new ArgConverter<String>(String.class) {
             
             @Override
             public String convertArg(String arg) {
                 return arg;
+            }
+        });
+        INTERNAL_CONVERTERS.put(Player.class, new ArgConverter<Player>(Player.class) {
+            
+            @Override
+            public Player convertArg(String arg) {
+                return Bukkit.getPlayerExact(arg);
+            }
+        });
+        INTERNAL_CONVERTERS.put(OfflinePlayer.class, new ArgConverter<OfflinePlayer>(OfflinePlayer.class) {
+            
+            @Override
+            public OfflinePlayer convertArg(String arg) {
+                OfflinePlayer p = Bukkit.getOfflinePlayer(arg);
+                if (p.hasPlayedBefore()) {
+                    return p;
+                } else {
+                    return null;
+                }
             }
         });
     }
