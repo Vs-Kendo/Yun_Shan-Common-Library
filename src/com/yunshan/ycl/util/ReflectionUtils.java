@@ -91,7 +91,7 @@ public final class ReflectionUtils {
         Annotation[][] anns = method.getParameterAnnotations();
         for (int i = 0; i < anns.length; i++) {
             for (Annotation ann : anns[i]) {
-                if (ann.getClass() == annClass) return i;
+                if (annClass.isInstance(ann)) return i;
             }
         }
         return -1;
