@@ -20,7 +20,8 @@ public abstract class BaseCommandManager implements CommandManager {
     
     protected Map<String, Command> commands = Maps.newHashMap();
     
-    private PluginCommand oldHandle;
+    private PluginCommand handleCmd;
+    private String handleCmdName;
     
     protected String mainCommand;
     
@@ -36,11 +37,13 @@ public abstract class BaseCommandManager implements CommandManager {
     
     @Override
     public CommandManager setHandleCommand(String handle, JavaPlugin plugin) {
-        if (this.oldHandle != null) {
-            this.oldHandle.setExecutor(null);
+        if (this.handleCmd != null) {
+            this.handleCmd.setExecutor(null);
+            this.handleCmdName = null;
         }
         PluginCommand cmd = plugin.getCommand(handle);
         cmd.setExecutor(this);
+        this.handleCmdName = cmd.getName();
         return this;
     }
     
@@ -67,19 +70,23 @@ public abstract class BaseCommandManager implements CommandManager {
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         String cmdName = args.length > 0 ? args[0] : this.mainCommand;
         if (cmdName == null) {
-            this.messager.info(sender, "message.command.notMain", this.oldHandle.getName());
+            this.messager.info(sender, "message.command.notMain", this.handleCmdName);
             return true;
         }
         Command cmd = this.commands.get(cmdName);
         
         if (cmd != null) {
             if (!cmd.isVaild()) {
-                this.messager.info(sender, "message.command.invaild", this.oldHandle.getName(), cmdName);
+                this.messager.info(sender, "message.command.invaild", this.handleCmdName, cmdName);
                 return true;
             }
-            return cmd.execute(sender, args);
+            boolean usageRight = cmd.execute(sender, args);
+            if (!usageRight) {
+                this.messager.info(sender, "command.usage." + this.handleCmdName + "." + cmdName, this.handleCmdName, cmdName);
+            }
+            return true;
         } else {
-            this.messager.info(sender, "message.command.noFound", this.oldHandle.getName(), cmdName);
+            this.messager.info(sender, "message.command.noFound", this.handleCmdName, cmdName);
             return true;
         }
     }
