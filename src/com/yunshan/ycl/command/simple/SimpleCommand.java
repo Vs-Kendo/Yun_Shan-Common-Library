@@ -228,6 +228,8 @@ public abstract class SimpleCommand implements Command {
         int optionIdx = ReflectionUtils.findFirstAnnotationIndexInParameters(handler, OptionalArgStart.class);
         if (optionIdx != -1) {
             command.minArgsLength = optionIdx;
+        } else {
+            command.minArgsLength = command.maxArgsLength;
         }
         command.commandHandler = targetHandler;
     }
