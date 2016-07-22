@@ -25,7 +25,7 @@ import com.yunshan.ycl.util.ReflectionUtils;
  * 简易命令类
  */
 public abstract class SimpleCommand implements Command {
-        
+    
     private boolean vaild;
     
     private String name;
@@ -198,7 +198,8 @@ public abstract class SimpleCommand implements Command {
             if (handlerAnn.needSender()) {
                 if (!CommandSender.class.isAssignableFrom(params[0])) {
                     // 命令处理方法的第一个参数不是CommandSender类型或其子类型
-                    throw new SimpleCommandInitFailExecption(command, "the first arg is not receiver a CommandSender instance");
+                    throw new SimpleCommandInitFailExecption(command,
+                            "the first arg is not receiver a CommandSender instance");
                 }
                 @SuppressWarnings("unchecked")
                 Class<? extends CommandSender> tmp = (Class<? extends CommandSender>) params[0];
@@ -230,6 +231,9 @@ public abstract class SimpleCommand implements Command {
             command.minArgsLength = optionIdx;
         } else {
             command.minArgsLength = command.maxArgsLength;
+        }
+        if (handlerAnn.needSender()) {// sender占了一个参数位置
+            command.minArgsLength -= 1;
         }
         command.commandHandler = targetHandler;
     }
