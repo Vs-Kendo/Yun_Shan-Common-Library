@@ -19,16 +19,13 @@ import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.yunshan.ycl.command.Command;
 import com.yunshan.ycl.command.simple.ArgConverter.ArgConverterFailException;
-import com.yunshan.ycl.command.simple.ArgConverterManager.MissingArgConverterExecption;
 import com.yunshan.ycl.util.ReflectionUtils;
 
 /**
  * 简易命令类
  */
 public abstract class SimpleCommand implements Command {
-    
-    private boolean inited;
-    
+        
     private boolean vaild;
     
     private String name;
@@ -43,19 +40,9 @@ public abstract class SimpleCommand implements Command {
      * @param name
      *            命令名
      */
-    public SimpleCommand(String name) {
+    public SimpleCommand(String name, ArgConverterManager argConverterManager) {
+        init(this, argConverterManager);
         this.name = name;
-    }
-    
-    /**
-     * 查看是否命令成功初始化
-     * <p>
-     * 对于同一个类，每次初始化的结果都是相同的
-     * 
-     * @return 已成功初始化返回true，否则返回false
-     */
-    protected boolean isInited() {
-        return this.inited;
     }
     
     @Override
@@ -186,17 +173,16 @@ public abstract class SimpleCommand implements Command {
         return false;
     }
     
-    protected static boolean init(SimpleCommand command, ArgConverterManager converterManager)
-            throws MissingArgConverterExecption {
+    private static void init(SimpleCommand command, ArgConverterManager converterManager) {
         Class<? extends SimpleCommand> cls = command.getClass();
         Method handler = ReflectionUtils.getFirstMethodByAnnotation(cls, CommandHandler.class);
         if (handler == null) {
-            //TODO 没有带命令处理器注解的方法
-            return false;
+            // 没有带命令处理器注解的方法
+            throw new SimpleCommandInitFailExecption(command, "none handler");
         }
         if (handler.getReturnType() != boolean.class) {
-            //TODO 返回值不是boolean类型
-            return false;
+            // 返回值不是boolean类型
+            throw new SimpleCommandInitFailExecption(command, "return type not boolean");
         }
         CommandHandler handlerAnn = handler.getAnnotation(CommandHandler.class);
         Class<?>[] params = handler.getParameterTypes();
@@ -205,14 +191,14 @@ public abstract class SimpleCommand implements Command {
         try {
             targetHandler = lookup.unreflect(handler).bindTo(command);
         } catch (IllegalAccessException e1) {
-            //TODO 方法不是public的
-            return false;
+            // 方法不是public的
+            throw new SimpleCommandInitFailExecption(command, "handler not public");
         }
         if (params.length > 0) {
             if (handlerAnn.needSender()) {
                 if (!CommandSender.class.isAssignableFrom(params[0])) {
-                    //TODO 命令处理方法的第一个参数不是CommandSender类型或其子类型
-                    return false;
+                    // 命令处理方法的第一个参数不是CommandSender类型或其子类型
+                    throw new SimpleCommandInitFailExecption(command, "the first arg is not receiver a CommandSender instance");
                 }
                 @SuppressWarnings("unchecked")
                 Class<? extends CommandSender> tmp = (Class<? extends CommandSender>) params[0];
@@ -244,7 +230,6 @@ public abstract class SimpleCommand implements Command {
             command.minArgsLength = optionIdx;
         }
         command.commandHandler = targetHandler;
-        return true;
     }
     
     /**
@@ -273,4 +258,35 @@ public abstract class SimpleCommand implements Command {
     
     }
     
+    /**
+     * 简易命令初始化异常失败
+     * <p>
+     * 作者：YunShan<br>
+     * 创建日期：2016年6月30日
+     */
+    public static class SimpleCommandInitFailExecption extends RuntimeException {
+        
+        private static final long serialVersionUID = 1L;
+        
+        /** 未成功初始化的命令 */
+        private final SimpleCommand command;
+        
+        /**
+         * @param command
+         *            未成功初始化的命令
+         */
+        public SimpleCommandInitFailExecption(SimpleCommand command, String reason) {
+            super(command.getName() + ":" + reason);
+            this.command = command;
+        }
+        
+        /**
+         * 获取导致此异常抛出的未成功初始化的命令
+         * 
+         * @return 未成功初始化的命令
+         */
+        protected SimpleCommand getCommand() {
+            return this.command;
+        }
+    }
 }

@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.google.common.collect.Maps;
-import com.yunshan.ycl.exception.NoneStackException;
 
 /**
  * 参数转换器管理器
@@ -121,7 +120,7 @@ public class ArgConverterManager {
      * <p>
      * 该异常是在{@link ArgConverterManager#getArgConverters(Class[])}方法中被抛出的
      */
-    public static class MissingArgConverterExecption extends NoneStackException {
+    public static class MissingArgConverterExecption extends RuntimeException {
         
         private static final long serialVersionUID = 1L;
         
@@ -132,6 +131,7 @@ public class ArgConverterManager {
          *            参数转换器的结果类型
          */
         private MissingArgConverterExecption(Class<?> convertTo) {
+            super(convertTo.getName());
             this.convertTo = convertTo;
         }
         
