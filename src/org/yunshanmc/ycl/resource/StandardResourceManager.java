@@ -36,7 +36,7 @@ public class StandardResourceManager implements ResourceManager {
     
     /**
      * @param plugin
-     *        插件对象
+     *            插件对象
      */
     public StandardResourceManager(JavaPlugin plugin) {
         this.pluginFolder = plugin.getDataFolder().toPath();
@@ -98,6 +98,11 @@ public class StandardResourceManager implements ResourceManager {
             return true;// 资源已存在，且参数force设为不覆盖，直接返回
         }
         try {
+            File f = resPath.toFile();
+            if (!f.exists()) {
+                f.getParentFile().mkdirs();
+                f.createNewFile();
+            }
             Files.copy(resToWrite, resPath, StandardCopyOption.REPLACE_EXISTING);
             return true;
         } catch (IOException e) {
