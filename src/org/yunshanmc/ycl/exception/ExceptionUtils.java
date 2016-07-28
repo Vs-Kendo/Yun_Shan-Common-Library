@@ -54,12 +54,11 @@ public final class ExceptionUtils {
      */
     public static void handle(Throwable t) {
         List<Plugin> plugins = BukkitUtils.tracePlugin(t.getStackTrace());
-        ExceptionHandler handler;
+        ExceptionHandler handler = null;
         if (!plugins.isEmpty()) {
             handler = exceptionHandler.get(plugins.get(0));
-        } else {
-            handler = DEFAULT_HANDLER;
         }
+        if (handler == null) handler = DEFAULT_HANDLER;
         handler.handle(t);
     }
     
