@@ -1,4 +1,4 @@
 name: YCL
-main: com.yunshan.ycl.YCLMain
+main: org.yunshanmc.ycl.YCLMain
 version: 1.0
 author: YunShan
