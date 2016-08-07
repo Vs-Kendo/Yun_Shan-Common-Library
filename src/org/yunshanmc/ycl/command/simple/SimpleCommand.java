@@ -93,6 +93,14 @@ public abstract class SimpleCommand implements Command {
     
     @Override
     public final boolean execute(CommandSender sender, String... args) {
+        if (!this.quickCheck(sender, args)) return false;
+        if (args.length < this.maxArgsLength) {
+            args = Arrays.copyOf(args, this.maxArgsLength);
+        }
+        return this.executeCommand(sender, args);
+    }
+    
+    protected boolean quickCheck(CommandSender sender, String... args) {
         if (this.senderType != null && !this.senderType.isInstance(sender)) {
             return this.onSenderTypeDisallow(sender, args);
         } else if (args.length > this.maxArgsLength) {
@@ -100,9 +108,10 @@ public abstract class SimpleCommand implements Command {
         } else if (args.length < this.minArgsLength) {
             return this.onTooLittleArgs(sender, args);
         }
-        if (args.length < this.maxArgsLength) {
-            args = Arrays.copyOf(args, this.maxArgsLength);
-        }
+        return true;
+    }
+    
+    protected boolean executeCommand(CommandSender sender, String... args) {
         try {
             return (boolean) this.commandHandler.invoke(sender, args);
         } catch (ArgConverterFailException e) {
