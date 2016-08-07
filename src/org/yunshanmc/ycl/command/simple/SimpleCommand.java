@@ -93,14 +93,6 @@ public abstract class SimpleCommand implements Command {
     
     @Override
     public final boolean execute(CommandSender sender, String... args) {
-        if (!this.quickCheck(sender, args)) return false;
-        if (args.length < this.maxArgsLength) {
-            args = Arrays.copyOf(args, this.maxArgsLength);
-        }
-        return this.executeCommand(sender, args);
-    }
-    
-    protected boolean quickCheck(CommandSender sender, String... args) {
         if (this.senderType != null && !this.senderType.isInstance(sender)) {
             return this.onSenderTypeDisallow(sender, args);
         } else if (args.length > this.maxArgsLength) {
@@ -108,7 +100,10 @@ public abstract class SimpleCommand implements Command {
         } else if (args.length < this.minArgsLength) {
             return this.onTooLittleArgs(sender, args);
         }
-        return true;
+        if (args.length < this.maxArgsLength) {
+            args = Arrays.copyOf(args, this.maxArgsLength);
+        }
+        return this.executeCommand(sender, args);
     }
     
     protected boolean executeCommand(CommandSender sender, String... args) {
@@ -131,7 +126,7 @@ public abstract class SimpleCommand implements Command {
      *            命令发生者
      * @param args
      *            实际命令参数
-     * @return 返回false将显示命令的默认帮助，不需要显示则返回true
+     * @return 命令语法是否正确(返回false将显示命令的默认帮助，不需要显示则返回true)
      */
     protected boolean onSenderTypeDisallow(CommandSender sender, String... args) {
         return false;
@@ -144,7 +139,7 @@ public abstract class SimpleCommand implements Command {
      *            命令发生者
      * @param args
      *            实际命令参数
-     * @return 返回false将显示命令的默认帮助，不需要显示则返回true
+     * @return 命令语法是否正确(返回false将显示命令的默认帮助，不需要显示则返回true)
      */
     protected boolean onTooLittleArgs(CommandSender sender, String... args) {
         return false;
@@ -157,7 +152,7 @@ public abstract class SimpleCommand implements Command {
      *            命令发生者
      * @param args
      *            实际命令参数
-     * @return 返回false将显示命令的默认帮助，不需要显示则返回true
+     * @return 命令语法是否正确(返回false将显示命令的默认帮助，不需要显示则返回true)
      */
     protected boolean onTooManyArgs(CommandSender sender, String... args) {
         return false;
