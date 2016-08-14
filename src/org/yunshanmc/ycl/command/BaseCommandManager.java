@@ -68,6 +68,11 @@ public abstract class BaseCommandManager implements CommandManager {
     }
     
     @Override
+    public String getMainCommand() {
+        return this.mainCommand;
+    }
+    
+    @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         String cmdName = args.length > 0 ? args[0] : this.mainCommand;
         if (cmdName == null) {

@@ -50,6 +50,15 @@ public interface CommandManager extends CommandExecutor {
     CommandManager setMainCommand(String cmdName);
     
     /**
+     * 获取主命令
+     * <p>
+     * 主命令是当用户未输入任何命令参数时所执行的命令(此处的命令参数指用户在游戏中实际输入的参数)
+     * 
+     * @return 主命令的名字
+     */
+    String getMainCommand();
+    
+    /**
      * 设置用于输出信息的信息发生者
      * <p>
      * 设为null时会使命令管理器失去所有信息输出能力，因此不建议设为null
