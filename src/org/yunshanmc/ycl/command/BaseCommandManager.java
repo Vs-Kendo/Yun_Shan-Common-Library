@@ -93,7 +93,6 @@ public abstract class BaseCommandManager implements CommandManager {
             }
             return true;
         } else {
-            ((CommandManager)this).getClass();
             this.messager.info(sender, "message.command.noFound", this.handleCmdName, cmdName);
             return true;
         }
