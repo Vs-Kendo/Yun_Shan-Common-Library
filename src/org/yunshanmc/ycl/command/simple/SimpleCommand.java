@@ -129,7 +129,7 @@ public abstract class SimpleCommand implements Command {
      * @return 命令语法是否正确(返回false将显示命令的默认帮助，不需要显示则返回true)
      */
     protected boolean onSenderTypeDisallow(CommandSender sender, String... args) {
-        return false;
+        return true;
     }
     
     /**
