@@ -50,7 +50,7 @@ public abstract class BaseCommandManager implements CommandManager {
     
     @Override
     public void setMessager(Messager messager) {
-        this.messager = messager != null ? messager : new NullMessager();
+        this.messager = messager != null ? messager : NullMessager.getInstance();
     }
     
     @Override
@@ -58,6 +58,7 @@ public abstract class BaseCommandManager implements CommandManager {
         if (this.commands.containsKey(command.getName())) return false;
         
         this.commands.put(command.getName(), command);
+        command.setMessager(this.messager);
         return true;
     }
     

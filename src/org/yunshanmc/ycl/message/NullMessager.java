@@ -10,6 +10,20 @@ import org.bukkit.command.CommandSender;
  */
 public final class NullMessager implements Messager {
     
+    private static final NullMessager INSTANCE = new NullMessager();
+    
+    private NullMessager() {// 禁止外部实例化
+    }
+    
+    /**
+     * 获取NullMessager实例
+     * 
+     * @return NullMessager实例
+     */
+    public static NullMessager getInstance() {
+        return INSTANCE;
+    }
+    
     /**
      * 空方法
      */

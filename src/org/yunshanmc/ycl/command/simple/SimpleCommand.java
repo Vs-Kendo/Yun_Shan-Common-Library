@@ -16,6 +16,8 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.yunshanmc.ycl.command.Command;
 import org.yunshanmc.ycl.command.simple.ArgConverter.ArgConverterFailException;
+import org.yunshanmc.ycl.message.Messager;
+import org.yunshanmc.ycl.message.NullMessager;
 import org.yunshanmc.ycl.util.ReflectionUtils;
 
 import com.google.common.base.Function;
@@ -35,6 +37,8 @@ public abstract class SimpleCommand implements Command {
     
     private int minArgsLength;
     private int maxArgsLength;
+    
+    protected Messager messager;
     
     /**
      * @param name
@@ -89,6 +93,11 @@ public abstract class SimpleCommand implements Command {
      */
     protected boolean setInvaild() {
         return true;
+    }
+    
+    @Override
+    public void setMessager(Messager messager) {
+        this.messager = messager != null ? messager : NullMessager.getInstance();
     }
     
     @Override
