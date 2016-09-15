@@ -1,16 +1,15 @@
 package org.yunshanmc.ycl.util;
 
+import com.google.common.collect.Sets;
+import org.yunshanmc.ycl.resource.Resource;
+import org.yunshanmc.ycl.resource.URLResource;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Objects;
-
-import org.yunshanmc.ycl.resource.Resource;
-import org.yunshanmc.ycl.resource.URLResource;
-
-import com.google.common.collect.Sets;
 
 /**
  * 反射工具
@@ -32,8 +31,8 @@ public final class ReflectionUtils {
      * @return 指定类中被指定注释注释了的第一个方法
      */
     public static Method getFirstMethodByAnnotation(Class<?> clazz, Class<? extends Annotation> annClass) {
-        Method[] methos = clazz.getDeclaredMethods();
-        for (Method method : methos) {
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method method : methods) {
             if (method.isAnnotationPresent(annClass)) return method;
         }
         return null;
