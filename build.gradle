@@ -1,5 +1,7 @@
-// Apply the java plugin to add support for Java
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'me.tatarka.retrolambda' version '3.3.0'
+}
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -19,9 +21,15 @@ repositories {
 }
 
 // 源码版本
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 // 编译目标版本
-targetCompatibility = 1.7
+targetCompatibility = 1.8
+
+retrolambda {
+    jdk System.getenv("JAVA8_HOME")
+    oldJdk System.getenv("JAVA6_HOME")
+    javaVersion JavaVersion.VERSION_1_6
+}
 
 // 源码位置定义
 sourceSets {

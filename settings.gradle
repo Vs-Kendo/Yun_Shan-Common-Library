@@ -16,4 +16,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'YCL-Bukkit通用开发库'
+rootProject.name = 'Yun_Shan-Common-Library'
