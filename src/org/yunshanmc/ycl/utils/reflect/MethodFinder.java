@@ -31,7 +31,7 @@ public class MethodFinder {
     
     /**
      * 搜索指定类中满足条件的第一个方法
-     *
+     * <p>
      * @param cls
      *     要搜索的类
      *
@@ -47,7 +47,7 @@ public class MethodFinder {
     
     /**
      * 搜索指定类中满足条件的所有方法
-     *
+     * <p>
      * @param cls
      *     要搜索的类
      *
@@ -64,7 +64,7 @@ public class MethodFinder {
     
     /**
      * 增加方法过滤器
-     *
+     * <p>
      * @param filter
      *     方法过滤器
      *
@@ -76,7 +76,7 @@ public class MethodFinder {
     
     /**
      * 按方法名过滤方法.
-     *
+     * <p>
      * @param mName
      *     要过滤出的方法的名字
      *
@@ -88,7 +88,7 @@ public class MethodFinder {
     
     /**
      * 按注解过滤方法
-     *
+     * <p>
      * @param annClass
      *     要过滤出的方法所带有的注解
      *
@@ -100,7 +100,7 @@ public class MethodFinder {
     
     /**
      * 按修饰符过滤方法
-     *
+     * <p>
      * @param modifies
      *     要过滤出的方法所拥有的修饰符
      *
@@ -112,7 +112,7 @@ public class MethodFinder {
     
     /**
      * 过滤出修饰符为public的方法
-     *
+     * <p>
      * @return 新的MethodFinder实例
      *
      * @see #filterModifies(int)
@@ -123,7 +123,7 @@ public class MethodFinder {
     
     /**
      * 根据参数列表过滤方法
-     *
+     * <p>
      * @param types
      *     要过滤出的方法的参数列表
      *
@@ -135,7 +135,7 @@ public class MethodFinder {
     
     /**
      * 根据返回值类型过滤方法
-     *
+     * <p>
      * @param type
      *     要过滤出的方法的返回值类型
      *
