@@ -11,7 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.yunshanmc.ycl.exception.ExceptionUtils;
-import org.yunshanmc.ycl.util.IOUtils;
+import org.yunshanmc.ycl.utils.IOUtils;
 
 /**
  * 可读写的配置

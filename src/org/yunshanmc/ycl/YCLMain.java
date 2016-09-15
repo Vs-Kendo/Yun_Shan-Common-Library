@@ -16,7 +16,7 @@ import org.yunshanmc.ycl.message.Messager;
 import org.yunshanmc.ycl.message.StandardMessageManager;
 import org.yunshanmc.ycl.resource.ResourceManager;
 import org.yunshanmc.ycl.resource.StandardResourceManager;
-import org.yunshanmc.ycl.util.BukkitUtils;
+import org.yunshanmc.ycl.utils.BukkitUtils;
 
 /**
  * YCL插件主类

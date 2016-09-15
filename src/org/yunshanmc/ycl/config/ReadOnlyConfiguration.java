@@ -18,7 +18,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.yunshanmc.ycl.exception.ExceptionUtils;
-import org.yunshanmc.ycl.util.IOUtils;
+import org.yunshanmc.ycl.utils.IOUtils;
 
 /**
  * 只读配置节点

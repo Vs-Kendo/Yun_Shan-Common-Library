@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.plugin.Plugin;
-import org.yunshanmc.ycl.util.BukkitUtils;
+import org.yunshanmc.ycl.utils.BukkitUtils;
 
 import com.google.common.collect.Maps;
 

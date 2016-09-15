@@ -18,7 +18,7 @@ import org.yunshanmc.ycl.command.Command;
 import org.yunshanmc.ycl.command.simple.ArgConverter.ArgConverterFailException;
 import org.yunshanmc.ycl.message.Messager;
 import org.yunshanmc.ycl.message.NullMessager;
-import org.yunshanmc.ycl.util.ReflectionUtils;
+import org.yunshanmc.ycl.utils.reflect.ReflectionUtils;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
