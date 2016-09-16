@@ -1,15 +1,14 @@
 package org.yunshanmc.ycl.command;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.yunshanmc.ycl.message.Messager;
 import org.yunshanmc.ycl.message.NullMessager;
 
-import com.google.common.collect.Maps;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * 基础命令管理器
@@ -84,7 +83,7 @@ public abstract class BaseCommandManager implements CommandManager {
         
         if (cmd != null) {
             if (!cmd.isVaild()) {
-                this.messager.info(sender, "message.command.invaild", this.handleCmdName, cmdName);
+                this.messager.info(sender, "message.command.invalid", this.handleCmdName, cmdName);
                 return true;
             }
             if (args.length >= 2) {
