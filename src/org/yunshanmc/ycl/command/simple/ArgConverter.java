@@ -1,11 +1,11 @@
 package org.yunshanmc.ycl.command.simple;
 
+import org.yunshanmc.ycl.exception.NoneStackRuntimeException;
+
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.reflect.Method;
-
-import org.yunshanmc.ycl.exception.NoneStackRuntimeException;
 
 /**
  * 参数转换器
@@ -31,7 +31,7 @@ public abstract class ArgConverter<T> {
      * @return 转换后的对象
      */
     public final T convert(String arg) {
-        if (arg == null) return this.getDefaultVaule();
+        if (arg == null) return this.getDefaultValue();
         try {
             T res = this.convertArg(arg);
             if (res == null) throw new ArgConverterFailException(arg, this.convertTo);
@@ -43,7 +43,7 @@ public abstract class ArgConverter<T> {
         }
     }
     
-    public T getDefaultVaule() {
+    public T getDefaultValue() {
         return null;
     }
     

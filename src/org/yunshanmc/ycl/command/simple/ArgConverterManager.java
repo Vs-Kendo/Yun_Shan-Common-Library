@@ -1,13 +1,12 @@
 package org.yunshanmc.ycl.command.simple;
 
-import java.util.Map;
-import java.util.Objects;
-
+import com.google.common.collect.Maps;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import com.google.common.collect.Maps;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 参数转换器管理器
@@ -25,7 +24,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Integer getDefaultVaule() {
+            public Integer getDefaultValue() {
                 return Integer.valueOf(-1);
             }
         });
@@ -37,7 +36,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Integer getDefaultVaule() {
+            public Integer getDefaultValue() {
                 return Integer.valueOf(-1);
             }
         });
@@ -49,7 +48,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Short getDefaultVaule() {
+            public Short getDefaultValue() {
                 return Short.valueOf((short) -1);
             }
         });
@@ -61,7 +60,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Short getDefaultVaule() {
+            public Short getDefaultValue() {
                 return Short.valueOf((short) -1);
             }
         });
@@ -73,7 +72,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Byte getDefaultVaule() {
+            public Byte getDefaultValue() {
                 return Byte.valueOf((byte) -1);
             }
         });
@@ -85,7 +84,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Byte getDefaultVaule() {
+            public Byte getDefaultValue() {
                 return Byte.valueOf((byte) -1);
             }
         });
@@ -97,7 +96,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Long getDefaultVaule() {
+            public Long getDefaultValue() {
                 return Long.valueOf(-1);
             }
         });
@@ -109,7 +108,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Long getDefaultVaule() {
+            public Long getDefaultValue() {
                 return Long.valueOf(-1);
             }
         });
@@ -121,7 +120,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Float getDefaultVaule() {
+            public Float getDefaultValue() {
                 return Float.valueOf(-1);
             }
         });
@@ -133,7 +132,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Float getDefaultVaule() {
+            public Float getDefaultValue() {
                 return Float.valueOf(-1);
             }
         });
@@ -145,7 +144,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Double getDefaultVaule() {
+            public Double getDefaultValue() {
                 return Double.valueOf(-1);
             }
         });
@@ -157,7 +156,7 @@ public class ArgConverterManager {
             }
             
             @Override
-            public Double getDefaultVaule() {
+            public Double getDefaultValue() {
                 return Double.valueOf(-1);
             }
         });
