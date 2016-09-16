@@ -25,7 +25,7 @@ public class ArgConverterManager {
             
             @Override
             public Integer getDefaultValue() {
-                return Integer.valueOf(-1);
+                return -1;
             }
         });
         INTERNAL_CONVERTERS.put(Integer.class, new ArgConverter<Integer>(Integer.class) {
@@ -37,7 +37,7 @@ public class ArgConverterManager {
             
             @Override
             public Integer getDefaultValue() {
-                return Integer.valueOf(-1);
+                return -1;
             }
         });
         INTERNAL_CONVERTERS.put(short.class, new ArgConverter<Short>(short.class) {
@@ -49,7 +49,7 @@ public class ArgConverterManager {
             
             @Override
             public Short getDefaultValue() {
-                return Short.valueOf((short) -1);
+                return (short) -1;
             }
         });
         INTERNAL_CONVERTERS.put(Short.class, new ArgConverter<Short>(Short.class) {
@@ -61,7 +61,7 @@ public class ArgConverterManager {
             
             @Override
             public Short getDefaultValue() {
-                return Short.valueOf((short) -1);
+                return (short) -1;
             }
         });
         INTERNAL_CONVERTERS.put(byte.class, new ArgConverter<Byte>(byte.class) {
@@ -73,7 +73,7 @@ public class ArgConverterManager {
             
             @Override
             public Byte getDefaultValue() {
-                return Byte.valueOf((byte) -1);
+                return (byte) -1;
             }
         });
         INTERNAL_CONVERTERS.put(Byte.class, new ArgConverter<Byte>(Byte.class) {
@@ -85,7 +85,7 @@ public class ArgConverterManager {
             
             @Override
             public Byte getDefaultValue() {
-                return Byte.valueOf((byte) -1);
+                return (byte) -1;
             }
         });
         INTERNAL_CONVERTERS.put(long.class, new ArgConverter<Long>(long.class) {
@@ -97,7 +97,7 @@ public class ArgConverterManager {
             
             @Override
             public Long getDefaultValue() {
-                return Long.valueOf(-1);
+                return (long) -1;
             }
         });
         INTERNAL_CONVERTERS.put(Long.class, new ArgConverter<Long>(Long.class) {
@@ -109,7 +109,7 @@ public class ArgConverterManager {
             
             @Override
             public Long getDefaultValue() {
-                return Long.valueOf(-1);
+                return (long) -1;
             }
         });
         INTERNAL_CONVERTERS.put(float.class, new ArgConverter<Float>(float.class) {
@@ -121,7 +121,7 @@ public class ArgConverterManager {
             
             @Override
             public Float getDefaultValue() {
-                return Float.valueOf(-1);
+                return (float) -1;
             }
         });
         INTERNAL_CONVERTERS.put(Float.class, new ArgConverter<Float>(Float.class) {
@@ -133,7 +133,7 @@ public class ArgConverterManager {
             
             @Override
             public Float getDefaultValue() {
-                return Float.valueOf(-1);
+                return (float) -1;
             }
         });
         INTERNAL_CONVERTERS.put(double.class, new ArgConverter<Double>(double.class) {
@@ -145,7 +145,7 @@ public class ArgConverterManager {
             
             @Override
             public Double getDefaultValue() {
-                return Double.valueOf(-1);
+                return (double) -1;
             }
         });
         INTERNAL_CONVERTERS.put(Double.class, new ArgConverter<Double>(Double.class) {
@@ -157,7 +157,7 @@ public class ArgConverterManager {
             
             @Override
             public Double getDefaultValue() {
-                return Double.valueOf(-1);
+                return (double) -1;
             }
         });
         INTERNAL_CONVERTERS.put(String.class, new ArgConverter<String>(String.class) {
@@ -253,17 +253,17 @@ public class ArgConverterManager {
      * @return 所有指定类型的参数转换器
      * @throws NullPointerException
      *             若clss参数中有某个元素为null则会抛出此异常
-     * @throws MissingArgConverterExecption
+     * @throws MissingAraConverterException
      *             若无法找到某个参数的参数转换器则会抛出此异常
      * @see #getArgConverter(Class)
      */
-    public ArgConverter<?>[] getArgConverters(Class<?>[] clss) throws MissingArgConverterExecption {
+    public ArgConverter<?>[] getArgConverters(Class<?>[] clss) throws MissingAraConverterException {
         ArgConverter<?>[] handles = new ArgConverter<?>[clss.length];
         for (int i = 0; i < clss.length; i++) {
             Class<?> cls = clss[i];
             Objects.requireNonNull(cls);
             ArgConverter<?> handle = this.getArgConverter(cls);
-            if (handle == null) throw new MissingArgConverterExecption(cls);
+            if (handle == null) throw new MissingAraConverterException(cls);
             handles[i] = handle;
         }
         return handles;
@@ -274,7 +274,7 @@ public class ArgConverterManager {
      * <p>
      * 该异常是在{@link ArgConverterManager#getArgConverters(Class[])}方法中被抛出的
      */
-    public static class MissingArgConverterExecption extends RuntimeException {
+    public static class MissingAraConverterException extends RuntimeException {
         
         private static final long serialVersionUID = 1L;
         
@@ -284,7 +284,7 @@ public class ArgConverterManager {
          * @param convertTo
          *            参数转换器的结果类型
          */
-        private MissingArgConverterExecption(Class<?> convertTo) {
+        private MissingAraConverterException(Class<?> convertTo) {
             super(convertTo.getName());
             this.convertTo = convertTo;
         }
