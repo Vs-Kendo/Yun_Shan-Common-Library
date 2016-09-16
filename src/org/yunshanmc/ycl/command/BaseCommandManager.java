@@ -38,11 +38,12 @@ public abstract class BaseCommandManager implements CommandManager {
     @Override
     public CommandManager setHandleCommand(String handle, JavaPlugin plugin) {
         if (this.handleCmd != null) {
-            this.handleCmd.setExecutor(null);
+            this.handleCmd.setExecutor(plugin);
             this.handleCmdName = null;
         }
         PluginCommand cmd = plugin.getCommand(handle);
         cmd.setExecutor(this);
+        this.handleCmd = cmd;
         this.handleCmdName = cmd.getName();
         return this;
     }
