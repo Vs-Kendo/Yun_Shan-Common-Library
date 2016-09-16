@@ -106,7 +106,7 @@ public abstract class BaseCommandManager implements CommandManager {
     
     @Override
     public boolean unregisterCommand(Command command) {
-        return this.commands.remove(command) != null;
+        return this.commands.remove(command.getName()) != null;
     }
     
     @Override
