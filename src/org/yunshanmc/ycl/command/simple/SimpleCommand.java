@@ -217,9 +217,7 @@ public abstract class SimpleCommand implements Command {
                 throw new SimpleCommandInitFailExecption(command,
                                                          "the first arg is not receiver a CommandSender instance");
             }
-            @SuppressWarnings("unchecked")
-            Class<? extends CommandSender> tmp = (Class<? extends CommandSender>) params[0];
-            command.senderType = tmp;
+            command.senderType = params[0].asSubclass(CommandSender.class);
             params = Arrays.copyOfRange(params, 1, params.length);
         }
         
