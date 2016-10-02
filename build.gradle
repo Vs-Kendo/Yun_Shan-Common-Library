@@ -1,19 +1,26 @@
 plugins {
-    id 'java'
+    id "com.jfrog.bintray" version "1.7.1"
     id 'me.tatarka.retrolambda' version '3.3.0'
 }
 
-// In this section you declare where to find the dependencies of your project
+ext.pluginGroup = 'org.yunshanmc.plugin'
+ext.pluginName = 'Yun_Shan-Common-Library'
+ext.pluginVersion = '1.0.0.1'
+
+group = pluginGroup
+version = pluginVersion
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
 repositories {
-    // Use 'jcenter' for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     jcenter()
-    
+
     maven {
         name = 'Bukkit'
         url = 'http://repo.bukkit.org/content/repositories/public/'
     }
-    
+
     maven {
         name = 'Guava'
         url = 'https://mvnrepository.com/artifact/com.google.guava/guava'
@@ -33,20 +40,20 @@ retrolambda {
 
 // 源码位置定义
 sourceSets {
-   main {
-      java {
-         srcDirs = ['src']
-      }
-      resources {
-         srcDirs = ['resources']
-      }
-   }
-   
-   test {
-      java {
-         srcDirs = ['test']
-      }
-   }
+    main {
+        java {
+            srcDirs = ['src']
+        }
+        resources {
+            srcDirs = ['resources']
+        }
+    }
+
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
 }
 
 javadoc {
@@ -70,4 +77,44 @@ dependencies {
 
     // JUnit Test
     testCompile 'junit:junit:4.12'
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar) {
+    from javadoc.outputs
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
+
+            artifact javadocJar {
+                classifier "javadoc"
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url "https://dl.bintray.com/yun-shan/BukkitPlugin"
+        }
+    }
+}
+
+bintray {
+    user = bintrayUserName
+    key = bintrayApiKey
+    publications = ['mavenJava']
+    pkg {
+        repo = 'BukkitPlugin'
+        name = pluginName
+    }
 }
