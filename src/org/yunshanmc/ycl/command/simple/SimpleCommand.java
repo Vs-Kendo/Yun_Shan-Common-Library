@@ -23,21 +23,23 @@ import java.util.List;
  */
 public abstract class SimpleCommand implements Command {
     
-    private boolean vaild;
-    
-    private String name;
-    
-    private MethodHandle                   commandHandler;
-    private Class<? extends CommandSender> senderType;
-    
-    private int minArgsLength;
-    private int maxArgsLength;
-    
-    protected Messager messager;
+    private static final MethodFinder METHOD_FINDER = new MethodFinder().filterAnnotationPresent(CommandHandler.class)
+                                                                        .filterPublic()
+                                                                        .filterReturnType(boolean.class);
+    private static final Lookup       LOOKUP        = MethodHandles.lookup();
+    protected Messager                       messager;
+    private   boolean                        vaild;
+    private   String                         name;
+    private   MethodHandle                   commandHandler;
+    private   Class<? extends CommandSender> senderType;
+    private   int                            minArgsLength;
+    private   int                            maxArgsLength;
     
     /**
      * @param name
      *     命令名
+     * @param argConverterManager
+     *     参数转换器管理器
      */
     public SimpleCommand(String name, ArgConverterManager argConverterManager) {
         init(this, argConverterManager);
@@ -72,24 +74,6 @@ public abstract class SimpleCommand implements Command {
         return false;
     }
     
-    /**
-     * 将命令设为有效
-     *
-     * @return 是否设置成功
-     */
-    protected boolean setVaild() {
-        return true;
-    }
-    
-    /**
-     * 将命令设为无效
-     *
-     * @return 是否设置成功
-     */
-    protected boolean setInvaild() {
-        return true;
-    }
-    
     @Override
     public void setMessager(Messager messager) {
         this.messager = messager != null ? messager : NullMessager.getInstance();
@@ -108,6 +92,24 @@ public abstract class SimpleCommand implements Command {
             args = Arrays.copyOf(args, this.maxArgsLength);
         }
         return this.executeCommand(sender, args);
+    }
+    
+    /**
+     * 将命令设为有效
+     *
+     * @return 是否设置成功
+     */
+    protected boolean setVaild() {
+        return true;
+    }
+    
+    /**
+     * 将命令设为无效
+     *
+     * @return 是否设置成功
+     */
+    protected boolean setInvaild() {
+        return true;
     }
     
     protected boolean executeCommand(CommandSender sender, String... args) {
@@ -139,7 +141,7 @@ public abstract class SimpleCommand implements Command {
     }
     
     /**
-     * 当 <b>命令参数个数</b><code> < </code><b>必填参数个数</b> 时会被调用
+     * 当 <b>命令参数个数</b><code> &lt; </code><b>必填参数个数</b> 时会被调用
      *
      * @param sender
      *     命令发生者
@@ -153,7 +155,7 @@ public abstract class SimpleCommand implements Command {
     }
     
     /**
-     * 当 <b>命令参数个数</b><code> > </code><b>必填参数个数+可选参数个数</b> 时会被调用
+     * 当 <b>命令参数个数</b><code> &gt; </code><b>必填参数个数+可选参数个数</b> 时会被调用
      *
      * @param sender
      *     命令发生者
@@ -186,17 +188,12 @@ public abstract class SimpleCommand implements Command {
         return false;
     }
     
-    private static final MethodFinder METHOD_FINDER = new MethodFinder().filterAnnotationPresent(CommandHandler.class)
-                                                                       .filterPublic()
-                                                                       .filterReturnType(boolean.class);
-    private static final Lookup LOOKUP = MethodHandles.lookup();
-    
     private static void init(SimpleCommand command, ArgConverterManager converterManager) {
         Class<? extends SimpleCommand> cls = command.getClass();
         
         Method handler = METHOD_FINDER.findMethod(cls);
         if (handler == null) {
-            throw new SimpleCommandInitFailExecption(command, "none valid handler method in class" + cls.getName());
+            throw new SimpleCommandInitFailException(command, "none valid handler method in class" + cls.getName());
         }
         
         MethodHandle targetHandler;
@@ -205,7 +202,7 @@ public abstract class SimpleCommand implements Command {
             targetHandler = LOOKUP.unreflect(handler).bindTo(command);
         } catch (IllegalAccessException e) {// 此异常不会出现
             e.printStackTrace();
-            throw new SimpleCommandInitFailExecption(command,"error");
+            throw new SimpleCommandInitFailException(command, "error");
         }
         
         CommandHandler handlerAnn = handler.getAnnotation(CommandHandler.class);
@@ -214,7 +211,7 @@ public abstract class SimpleCommand implements Command {
         if (handlerAnn.needSender()) {// 判断是否需要sender
             if (params.length == 0 || !CommandSender.class.isAssignableFrom(params[0])) {
                 // 命令处理方法的第一个参数不是CommandSender类型或其子类型
-                throw new SimpleCommandInitFailExecption(command,
+                throw new SimpleCommandInitFailException(command,
                                                          "the first arg is not receiver a CommandSender instance");
             }
             command.senderType = params[0].asSubclass(CommandSender.class);
@@ -282,7 +279,7 @@ public abstract class SimpleCommand implements Command {
      * 作者：YunShan<br>
      * 创建日期：2016年6月30日
      */
-    public static class SimpleCommandInitFailExecption extends RuntimeException {
+    public static class SimpleCommandInitFailException extends RuntimeException {
         
         private static final long serialVersionUID = 1L;
         
@@ -294,8 +291,10 @@ public abstract class SimpleCommand implements Command {
         /**
          * @param command
          *     未成功初始化的命令
+         * @param reason
+         *     未成功初始化的原因
          */
-        public SimpleCommandInitFailExecption(SimpleCommand command, String reason) {
+        public SimpleCommandInitFailException(SimpleCommand command, String reason) {
             super(command.getName() + ":" + reason);
             this.command = command;
         }
