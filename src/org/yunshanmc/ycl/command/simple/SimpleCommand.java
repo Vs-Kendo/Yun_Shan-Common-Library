@@ -28,10 +28,8 @@ public abstract class SimpleCommand implements Command {
                                                                         .filterPublic()
                                                                         .filterReturnType(boolean.class);
     private static final Lookup       LOOKUP        = MethodHandles.lookup();
-    
-    private SimpleCommandManager commandManager = null;
-    
     protected Messager                       messager;
+    private SimpleCommandManager commandManager = null;
     private   boolean                        valid;
     private   String                         name;
     private   MethodHandle                   commandHandler;
