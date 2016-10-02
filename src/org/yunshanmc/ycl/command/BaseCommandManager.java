@@ -1,5 +1,6 @@
 package org.yunshanmc.ycl.command;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -24,6 +25,8 @@ public abstract class BaseCommandManager implements CommandManager {
     protected Messager      messager;
     private   PluginCommand handleCmd;
     private   String        handleCmdName;
+    
+    private ThreadLocal<String> parentCmd = new ThreadLocal<>();
     
     public BaseCommandManager() {
         this(null);
@@ -65,11 +68,9 @@ public abstract class BaseCommandManager implements CommandManager {
             } else {
                 args = new String[0];
             }
-            boolean usageRight = cmd.execute(sender, args);
-            if (!usageRight) {
-                this.messager.info(sender, "command.usage." + this.handleCmdName + "." + cmdName, this.handleCmdName,
-                                   cmdName);
-            }
+            if (isSub) parentCmd.set(cmdName);
+            cmd.execute(sender, args);
+            if (isSub) parentCmd.remove();// 及时移除防止数据污染
             return true;
         } else {
             this.messager.info(sender, "message.command.noFound", this.handleCmdName, cmdName);
@@ -112,6 +113,18 @@ public abstract class BaseCommandManager implements CommandManager {
     }
     
     @Override
+    public void showUsage(CommandSender sender, String cmdName) {
+        String parent = parentCmd.get();
+        if (parent != null) {
+            this.messager.info(sender, Joiner.on('.').join("command.usage", this.handleCmdName, parent, cmdName),
+                               this.handleCmdName, parent, cmdName);
+        } else {
+            this.messager.info(sender, Joiner.on('.').join("command.usage", this.handleCmdName, parent, cmdName),
+                               this.handleCmdName, cmdName);
+        }
+    }
+    
+    @Override
     public boolean registerCommand(Command command) {
         if (this.commands.containsKey(command.getName())) return false;
         
@@ -140,7 +153,6 @@ public abstract class BaseCommandManager implements CommandManager {
     @Override
     public boolean unregisterSubCommand(String parent, Command subCommand) {
         Map<String, Command> subs = this.subCommands.get(parent);
-        if (subs == null) return false;
-        return subs.remove(subCommand.getName()) != null;
+        return subs != null && subs.remove(subCommand.getName()) != null;
     }
 }

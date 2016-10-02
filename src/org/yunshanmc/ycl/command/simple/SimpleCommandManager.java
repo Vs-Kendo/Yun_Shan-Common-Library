@@ -3,6 +3,7 @@ package org.yunshanmc.ycl.command.simple;
 import org.yunshanmc.ycl.command.BaseCommandManager;
 import org.yunshanmc.ycl.command.Command;
 import org.yunshanmc.ycl.message.Messager;
+import org.yunshanmc.ycl.utils.reflect.ReflectionUtils;
 
 /**
  * 简单命令管理器
@@ -22,6 +23,10 @@ public class SimpleCommandManager extends BaseCommandManager {
     
     @Override
     public boolean registerCommand(Command command) {
-        return super.registerCommand(command);
-    }   
+        if (super.registerCommand(command)) {
+            ReflectionUtils.setFieldValue(SimpleCommand.class, "commandManager", command, this);
+            return true;
+        }
+        return false;
+    }
 }

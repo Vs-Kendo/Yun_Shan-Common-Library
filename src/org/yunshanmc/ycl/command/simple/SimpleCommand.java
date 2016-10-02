@@ -4,6 +4,7 @@ import com.google.common.collect.Collections2;
 import org.bukkit.command.CommandSender;
 import org.yunshanmc.ycl.command.Command;
 import org.yunshanmc.ycl.command.simple.ArgConverter.ArgConverterFailException;
+import org.yunshanmc.ycl.exception.ExceptionUtils;
 import org.yunshanmc.ycl.message.Messager;
 import org.yunshanmc.ycl.message.NullMessager;
 import org.yunshanmc.ycl.utils.reflect.MethodFinder;
@@ -27,6 +28,9 @@ public abstract class SimpleCommand implements Command {
                                                                         .filterPublic()
                                                                         .filterReturnType(boolean.class);
     private static final Lookup       LOOKUP        = MethodHandles.lookup();
+    
+    private SimpleCommandManager commandManager = null;
+    
     protected Messager                       messager;
     private   boolean                        valid;
     private   String                         name;
@@ -79,18 +83,21 @@ public abstract class SimpleCommand implements Command {
     }
     
     @Override
-    public final boolean execute(CommandSender sender, String... args) {
+    public final void execute(CommandSender sender, String... args) {
         if (this.senderType != null && !this.senderType.isInstance(sender)) {
-            return this.onSenderTypeDisallow(sender, args);
+            this.onSenderTypeDisallow(sender, args);
+            return;
         } else if (args.length > this.maxArgsLength) {
-            return this.onTooManyArgs(sender, args);
+            this.onTooManyArgs(sender, args);
+            return;
         } else if (args.length < this.minArgsLength) {
-            return this.onTooLittleArgs(sender, args);
+            this.onTooLittleArgs(sender, args);
+            return;
         }
         if (args.length < this.maxArgsLength) {
             args = Arrays.copyOf(args, this.maxArgsLength);
         }
-        return this.executeCommand(sender, args);
+        this.executeCommand(sender, args);
     }
     
     /**
@@ -111,17 +118,26 @@ public abstract class SimpleCommand implements Command {
         return true;
     }
     
-    protected boolean executeCommand(CommandSender sender, String... args) {
+    protected void executeCommand(CommandSender sender, String... args) {
         try {
-            return (boolean) this.commandHandler.invoke(sender, args);
+            this.commandHandler.invoke(sender, args);
         } catch (ArgConverterFailException e) {
-            return this.onArgConvertFail(sender, e.getArg(), e.getConvertTo(), args);
+            this.onArgConvertFail(sender, e.getArg(), e.getConvertTo(), args);
         } catch (WrongMethodTypeException | ClassCastException e) {// 该项错误不应该出现
             throw new Error("error", e);
         } catch (Throwable e) {// 该项为命令处理方法抛出的异常
-            e.printStackTrace();
+            ExceptionUtils.handle(e);
         }
-        return true;
+    }
+    
+    /**
+     * 向指定CommandSender显示命令语法
+     *
+     * @param sender
+     *     要显示命令语法的CommandSender
+     */
+    protected void showUsage(CommandSender sender) {
+        this.commandManager.showUsage(sender, this.name);
     }
     
     /**
@@ -131,12 +147,9 @@ public abstract class SimpleCommand implements Command {
      *     命令发生者
      * @param args
      *     实际命令参数
-     *
-     * @return 命令语法是否正确(返回false将显示命令的默认帮助, 不需要显示则返回true)
      */
-    protected boolean onSenderTypeDisallow(CommandSender sender, String... args) {
+    protected void onSenderTypeDisallow(CommandSender sender, String... args) {
         this.messager.info(sender, "command.restrictSenderType." + this.senderType.getName().replace('.', '-'));
-        return true;
     }
     
     /**
@@ -146,11 +159,9 @@ public abstract class SimpleCommand implements Command {
      *     命令发生者
      * @param args
      *     实际命令参数
-     *
-     * @return 命令语法是否正确(返回false将显示命令的默认帮助, 不需要显示则返回true)
      */
-    protected boolean onTooLittleArgs(CommandSender sender, String... args) {
-        return false;
+    protected void onTooLittleArgs(CommandSender sender, String... args) {
+        this.showUsage(sender);
     }
     
     /**
@@ -160,11 +171,9 @@ public abstract class SimpleCommand implements Command {
      *     命令发生者
      * @param args
      *     实际命令参数
-     *
-     * @return 命令语法是否正确(返回false将显示命令的默认帮助, 不需要显示则返回true)
      */
-    protected boolean onTooManyArgs(CommandSender sender, String... args) {
-        return false;
+    protected void onTooManyArgs(CommandSender sender, String... args) {
+        this.showUsage(sender);
     }
     
     /**
@@ -180,11 +189,9 @@ public abstract class SimpleCommand implements Command {
      *     转换失败的参数应该被转换成的类型
      * @param args
      *     实际命令参数
-     *
-     * @return 返回false将显示命令的默认帮助，不需要显示则返回true
      */
-    protected boolean onArgConvertFail(CommandSender sender, String arg, Class<?> convertTo, String... args) {
-        return false;
+    protected void onArgConvertFail(CommandSender sender, String arg, Class<?> convertTo, String... args) {
+        this.showUsage(sender);
     }
     
     private static void init(SimpleCommand command, ArgConverterManager converterManager) {

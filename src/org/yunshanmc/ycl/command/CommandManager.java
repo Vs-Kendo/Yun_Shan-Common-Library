@@ -1,6 +1,7 @@
 package org.yunshanmc.ycl.command;
 
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.yunshanmc.ycl.message.Messager;
 
@@ -62,6 +63,15 @@ public interface CommandManager extends CommandExecutor {
      */
     CommandManager setHandleCommand(String handle, JavaPlugin plugin);
     
+    /**
+     * 向指定CommandSender显示命令语法
+     *
+     * @param sender
+     *     要显示命令语法的CommandSender
+     * @param cmdName
+     *     命令名
+     */
+    void showUsage(CommandSender sender, String cmdName);
     
     /**
      * 注册命令
