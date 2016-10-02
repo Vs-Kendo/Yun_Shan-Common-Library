@@ -18,14 +18,12 @@ import java.util.Map;
  */
 public abstract class BaseCommandManager implements CommandManager {
     
-    protected Map<String, Command> commands = Maps.newHashMap();
-    
-    private PluginCommand handleCmd;
-    private String        handleCmdName;
-    
-    protected String mainCommand;
-    
-    protected Messager messager;
+    protected Map<String, Command>              commands    = Maps.newHashMap();
+    protected Map<String, Map<String, Command>> subCommands = Maps.newHashMap();
+    protected String        mainCommand;
+    protected Messager      messager;
+    private   PluginCommand handleCmd;
+    private   String        handleCmdName;
     
     public BaseCommandManager() {
         this(null);
@@ -33,6 +31,71 @@ public abstract class BaseCommandManager implements CommandManager {
     
     public BaseCommandManager(Messager messager) {
         this.setMessager(messager);
+    }
+    
+    @Override
+    public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+        String cmdName = args.length > 0 ? args[0] : this.mainCommand;
+        if (cmdName == null) {
+            this.messager.info(sender, "message.command.notMain", this.handleCmdName);
+            return true;
+        }
+        Command cmd = null;
+        boolean isSub = false;
+        if (args.length >= 2) {// 优先搜索子命令
+            Map<String, Command> subs = this.subCommands.get(cmdName);
+            if (subs != null) {
+                cmd = subs.get(args[1]);
+            }
+        }
+        if (cmd != null) {
+            isSub = true;
+        } else {
+            cmd = this.commands.get(cmdName);// 子命令不存在则搜索根命令
+        }
+        
+        if (cmd != null) {
+            if (!cmd.isValid()) {
+                this.messager.info(sender, "message.command.invalid", this.handleCmdName, cmdName);
+                return true;
+            }
+            int startIdx = isSub ? 2 : 1;
+            if (args.length >= startIdx + 1) {
+                args = Arrays.copyOfRange(args, startIdx, args.length);
+            } else {
+                args = new String[0];
+            }
+            boolean usageRight = cmd.execute(sender, args);
+            if (!usageRight) {
+                this.messager.info(sender, "command.usage." + this.handleCmdName + "." + cmdName, this.handleCmdName,
+                                   cmdName);
+            }
+            return true;
+        } else {
+            this.messager.info(sender, "message.command.noFound", this.handleCmdName, cmdName);
+            return true;
+        }
+    }
+    
+    @Override
+    public Command getCommand(String name) {
+        return this.commands.get(name);
+    }
+    
+    @Override
+    public String getMainCommand() {
+        return this.mainCommand;
+    }
+    
+    @Override
+    public CommandManager setMainCommand(String cmdName) {
+        this.mainCommand = cmdName;
+        return this;
+    }
+    
+    @Override
+    public void setMessager(Messager messager) {
+        this.messager = messager != null ? messager : NullMessager.getInstance();
     }
     
     @Override
@@ -49,11 +112,6 @@ public abstract class BaseCommandManager implements CommandManager {
     }
     
     @Override
-    public void setMessager(Messager messager) {
-        this.messager = messager != null ? messager : NullMessager.getInstance();
-    }
-    
-    @Override
     public boolean registerCommand(Command command) {
         if (this.commands.containsKey(command.getName())) return false;
         
@@ -63,45 +121,15 @@ public abstract class BaseCommandManager implements CommandManager {
     }
     
     @Override
-    public CommandManager setMainCommand(String cmdName) {
-        this.mainCommand = cmdName;
-        return this;
-    }
-    
-    @Override
-    public String getMainCommand() {
-        return this.mainCommand;
-    }
-    
-    @Override
-    public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        String cmdName = args.length > 0 ? args[0] : this.mainCommand;
-        if (cmdName == null) {
-            this.messager.info(sender, "message.command.notMain", this.handleCmdName);
-            return true;
+    public boolean registerSubCommand(String parent, Command subCommand) {
+        Map<String, Command> subs = this.subCommands.get(parent);
+        if (subs == null) {
+            subs = Maps.newHashMap();
+            this.subCommands.put(parent, subs);
         }
-        Command cmd = this.commands.get(cmdName);
-        
-        if (cmd != null) {
-            if (!cmd.isValid()) {
-                this.messager.info(sender, "message.command.invalid", this.handleCmdName, cmdName);
-                return true;
-            }
-            if (args.length >= 2) {
-                args = Arrays.copyOfRange(args, 1, args.length);
-            } else {
-                args = new String[0];
-            }
-            boolean usageRight = cmd.execute(sender, args);
-            if (!usageRight) {
-                this.messager.info(sender, "command.usage." + this.handleCmdName + "." + cmdName, this.handleCmdName,
-                        cmdName);
-            }
-            return true;
-        } else {
-            this.messager.info(sender, "message.command.noFound", this.handleCmdName, cmdName);
-            return true;
-        }
+        if (subs.containsKey(subCommand.getName())) return false;
+        subs.put(subCommand.getName(), subCommand);
+        return true;
     }
     
     @Override
@@ -110,7 +138,9 @@ public abstract class BaseCommandManager implements CommandManager {
     }
     
     @Override
-    public Command getCommand(String name) {
-        return this.commands.get(name);
+    public boolean unregisterSubCommand(String parent, Command subCommand) {
+        Map<String, Command> subs = this.subCommands.get(parent);
+        if (subs == null) return false;
+        return subs.remove(subCommand.getName()) != null;
     }
 }
