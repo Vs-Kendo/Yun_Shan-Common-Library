@@ -7,13 +7,6 @@ ext.pluginGroup = 'org.yunshanmc.plugin'
 ext.pluginName = 'Yun_Shan-Common-Library'
 ext.pluginVersion = '1.0.0.1'
 
-task setTravisEnv {
-    if (System.getenv("TRAVIS") != null) {
-        ext.bintrayUserName = '';
-        ext.bintrayApiKey = '';
-    }
-}
-
 group = pluginGroup
 version = pluginVersion
 
@@ -117,8 +110,8 @@ publishing {
 }
 
 bintray {
-    user = bintrayUserName
-    key = bintrayApiKey
+    user = System.getProperty("bintrayUserName", "")
+    key = System.getProperty("bintrayApiKey", "")
     publications = ['mavenJava']
     pkg {
         repo = 'BukkitPlugin'
