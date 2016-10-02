@@ -8,12 +8,9 @@ ext.pluginName = 'Yun_Shan-Common-Library'
 ext.pluginVersion = '1.0.0.1'
 
 task setTravisEnv {
-    for(Map.Entry env : System.getenv().entrySet()) {
-        println env
-    }
     if (System.getenv("TRAVIS") != null) {
-        ext.bintrayUserName = System.getenv("bintrayUserName");
-        ext.bintrayApiKey = System.getenv("bintrayApiKey");
+        ext.bintrayUserName = '';
+        ext.bintrayApiKey = '';
     }
 }
 
