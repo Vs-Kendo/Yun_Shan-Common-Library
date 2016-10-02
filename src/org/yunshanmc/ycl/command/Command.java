@@ -22,7 +22,7 @@ public interface Command {
      * 
      * @return 命令有效返回true，否则返回false
      */
-    boolean isVaild();
+    boolean isValid();
     
     /**
      * 设置命令有效性

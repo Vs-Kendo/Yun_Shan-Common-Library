@@ -28,7 +28,7 @@ public abstract class SimpleCommand implements Command {
                                                                         .filterReturnType(boolean.class);
     private static final Lookup       LOOKUP        = MethodHandles.lookup();
     protected Messager                       messager;
-    private   boolean                        vaild;
+    private   boolean                        valid;
     private   String                         name;
     private   MethodHandle                   commandHandler;
     private   Class<? extends CommandSender> senderType;
@@ -51,21 +51,20 @@ public abstract class SimpleCommand implements Command {
         return this.name;
     }
     
-    @Override
-    public boolean isVaild() {
-        return this.vaild;
+    public boolean isValid() {
+        return this.valid;
     }
     
     @Override
     public final boolean setValidity(boolean vaild) {
-        if (vaild && !this.vaild) {// 要设为有效且当前无效
+        if (vaild && !this.valid) {// 要设为有效且当前无效
             if (this.setVaild()) {
-                this.vaild = true;
+                this.valid = true;
                 return true;
             }
-        } else if (!vaild && this.vaild) {// 要设为无效且当前有效
+        } else if (!vaild && this.valid) {// 要设为无效且当前有效
             if (this.setInvaild()) {
-                this.vaild = false;
+                this.valid = false;
                 return true;
             }
         } else {// 要设置的有效性与当前有效性一致

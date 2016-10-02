@@ -83,7 +83,7 @@ public abstract class BaseCommandManager implements CommandManager {
         Command cmd = this.commands.get(cmdName);
         
         if (cmd != null) {
-            if (!cmd.isVaild()) {
+            if (!cmd.isValid()) {
                 this.messager.info(sender, "message.command.invalid", this.handleCmdName, cmdName);
                 return true;
             }
