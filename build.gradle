@@ -18,7 +18,7 @@ repositories {
 
     maven {
         name = 'Spigot'
-        url  = 'https://hub.spigotmc.org/nexus/content/groups/public/'
+        url = 'https://hub.spigotmc.org/nexus/content/groups/public/'
     }
 
     maven {
@@ -68,10 +68,15 @@ compileJava {
     options.encoding = 'utf-8' // 源码为utf-8编码
 }
 
+processResources {
+    filter {line -> line.replace("\${pluginVersion}", pluginVersion).replace("\${pluginName}", "YCL")}
+}
+
+
 // In this section you declare the dependencies for your production and test code
 dependencies {
     // Spigot API
-    compile ('org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT') {transitive = false}
+    compile('org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT') { transitive = false }
     // Guava
     compile 'com.google.guava:guava:11.0'
 

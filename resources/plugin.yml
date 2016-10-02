@@ -1,4 +1,4 @@
-name: YCL
+name: ${pluginName}
 main: org.yunshanmc.ycl.YCLMain
-version: 1.0
-author: YunShan
+version: ${pluginVersion}
+author: Yun-Shan
