@@ -7,13 +7,12 @@ ext.pluginGroup = 'org.yunshanmc.plugin'
 ext.pluginName = 'Yun_Shan-Common-Library'
 ext.pluginVersion = '1.0.0.1'
 
-configurations {
+task setTravisEnv {
     if (System.getenv("TRAVIS") != null) {
         ext.bintrayUserName = System.getenv("bintrayUserName");
         ext.bintrayApiKey = System.getenv("bintrayApiKey");
     }
 }
-
 
 group = pluginGroup
 version = pluginVersion
