@@ -67,7 +67,6 @@ public final class ReflectionUtils {
      * @param obj 字段所属的对象，静态字段传null即可
      * @param value 要设置的字段值
      *
-     * @return 设置成功返回true，失败返回false
      * @throws NoSuchFieldException if a field with the specified name is not found.
      * @throws IllegalArgumentException if the specified object is not an instance of the class or interface declaring the underlying field (or a subclass or implementor thereof), or if an unwrapping conversion fails.
      */
