@@ -119,7 +119,7 @@ public abstract class BaseCommandManager implements CommandManager {
             this.messager.info(sender, Joiner.on('.').join("command.usage", this.handleCmdName, parent, cmdName),
                                this.handleCmdName, parent, cmdName);
         } else {
-            this.messager.info(sender, Joiner.on('.').join("command.usage", this.handleCmdName, parent, cmdName),
+            this.messager.info(sender, Joiner.on('.').join("command.usage", this.handleCmdName, cmdName),
                                this.handleCmdName, cmdName);
         }
     }
