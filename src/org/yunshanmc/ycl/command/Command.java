@@ -27,12 +27,12 @@ public interface Command {
     /**
      * 设置命令有效性
      *
-     * @param vaild
+     * @param valid
      *     是否有效
      *
      * @return 是否设置成功
      */
-    boolean setValidity(boolean vaild);
+    boolean setValidity(boolean valid);
     
     /**
      * 设置Messager，用于发送信息

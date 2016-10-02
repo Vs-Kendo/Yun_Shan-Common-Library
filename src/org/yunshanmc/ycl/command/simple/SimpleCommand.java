@@ -60,14 +60,14 @@ public abstract class SimpleCommand implements Command {
     }
     
     @Override
-    public final boolean setValidity(boolean vaild) {
-        if (vaild && !this.valid) {// 要设为有效且当前无效
-            if (this.setVaild()) {
+    public final boolean setValidity(boolean valid) {
+        if (valid && !this.valid) {// 要设为有效且当前无效
+            if (this.setValid()) {
                 this.valid = true;
                 return true;
             }
-        } else if (!vaild && this.valid) {// 要设为无效且当前有效
-            if (this.setInvaild()) {
+        } else if (!valid && this.valid) {// 要设为无效且当前有效
+            if (this.setInvalid()) {
                 this.valid = false;
                 return true;
             }
@@ -105,7 +105,7 @@ public abstract class SimpleCommand implements Command {
      *
      * @return 是否设置成功
      */
-    protected boolean setVaild() {
+    protected boolean setValid() {
         return true;
     }
     
@@ -114,7 +114,7 @@ public abstract class SimpleCommand implements Command {
      *
      * @return 是否设置成功
      */
-    protected boolean setInvaild() {
+    protected boolean setInvalid() {
         return true;
     }
     
