@@ -38,7 +38,7 @@ public abstract class BaseCommandManager implements CommandManager {
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
         String cmdName = args.length > 0 ? args[0] : this.mainCommand;
         if (cmdName == null) {
-            this.messager.info(sender, "message.command.notMain", this.handleCmdName);
+            this.messager.info(sender, "command.notMain", this.handleCmdName);
             return true;
         }
         Command cmd = null;
@@ -57,7 +57,7 @@ public abstract class BaseCommandManager implements CommandManager {
         
         if (cmd != null) {
             if (!cmd.isValid()) {
-                this.messager.info(sender, "message.command.invalid", this.handleCmdName, cmdName);
+                this.messager.info(sender, "command.invalid", this.handleCmdName, cmdName);
                 return true;
             }
             int startIdx = isSub ? 2 : 1;
@@ -71,7 +71,7 @@ public abstract class BaseCommandManager implements CommandManager {
             if (isSub) parentCmd.remove();// 及时移除防止数据污染
             return true;
         } else {
-            this.messager.info(sender, "message.command.noFound", this.handleCmdName, cmdName);
+            this.messager.info(sender, "command.noFound", this.handleCmdName, cmdName);
             return true;
         }
     }
