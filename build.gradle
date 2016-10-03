@@ -5,7 +5,7 @@ plugins {
 
 ext.pluginGroup = 'org.yunshanmc.plugin'
 ext.pluginName = 'Yun_Shan-Common-Library'
-ext.pluginVersion = '1.0.0.13'
+ext.pluginVersion = '1.0.0.14'
 
 group = pluginGroup
 version = pluginVersion
