@@ -1,12 +1,11 @@
 package org.yunshanmc.ycl.exception;
 
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Maps;
 import org.bukkit.plugin.Plugin;
 import org.yunshanmc.ycl.utils.BukkitUtils;
 
-import com.google.common.collect.Maps;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 异常工具类
@@ -34,13 +33,7 @@ public final class ExceptionUtils {
      */
     public static void setExceptionHandler(ExceptionHandler handler) {
         if (handler != null) {
-            List<Plugin> plugins = BukkitUtils.tracePlugin(true);
-            Plugin plugin;
-            if (plugins.size() >= 2) {
-                plugin = plugins.get(1);
-            } else {
-                plugin = plugins.get(0);
-            }
+            Plugin plugin = BukkitUtils.tracePlugin(true).get(0);
             exceptionHandler.put(plugin, handler);
         }
     }
