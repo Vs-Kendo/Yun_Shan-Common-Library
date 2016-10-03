@@ -27,14 +27,14 @@ public abstract class SimpleCommand implements Command {
     private static final MethodFinder METHOD_FINDER = new MethodFinder().filterAnnotationPresent(CommandHandler.class)
                                                                         .filterPublic();
     private static final Lookup       LOOKUP        = MethodHandles.lookup();
-    protected Messager                       messager;
+    protected Messager messager;
     private SimpleCommandManager commandManager = null;
-    private   boolean                        valid;
-    private   String                         name;
-    private   MethodHandle                   commandHandler;
-    private   Class<? extends CommandSender> senderType;
-    private   int                            minArgsLength;
-    private   int                            maxArgsLength;
+    private boolean                        valid;
+    private String                         name;
+    private MethodHandle                   commandHandler;
+    private Class<? extends CommandSender> senderType;
+    private int                            minArgsLength;
+    private int                            maxArgsLength;
     
     /**
      * @param name
@@ -242,7 +242,10 @@ public abstract class SimpleCommand implements Command {
                 if (OptionalArgStart.class.isInstance(ann)) optionIdx = i;
             }
         }
-        if (optionIdx != -1) {
+        if (handlerAnn.needSender()) {
+            optionIdx = optionIdx - 1;
+        }
+        if (optionIdx >= 0) {
             command.minArgsLength = optionIdx;
         } else {
             command.minArgsLength = command.maxArgsLength;
