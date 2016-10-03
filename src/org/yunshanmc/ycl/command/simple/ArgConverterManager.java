@@ -14,6 +14,7 @@ import java.util.Objects;
 public class ArgConverterManager {
     
     private static final Map<Class<?>, ArgConverter<?>> INTERNAL_CONVERTERS = Maps.newHashMap();
+    private static ArgConverterManager instance;
     
     static {
         INTERNAL_CONVERTERS.put(int.class, new ArgConverter<Integer>(int.class) {
@@ -160,6 +161,54 @@ public class ArgConverterManager {
                 return (double) -1;
             }
         });
+        INTERNAL_CONVERTERS.put(boolean.class, new ArgConverter<Boolean>(boolean.class) {
+            
+            @Override
+            public Boolean convertArg(String arg) {
+                return "t".equalsIgnoreCase(arg) || "true".equalsIgnoreCase(arg);
+            }
+            
+            @Override
+            public Boolean getDefaultValue() {
+                return false;
+            }
+        });
+        INTERNAL_CONVERTERS.put(Boolean.class, new ArgConverter<Boolean>(Boolean.class) {
+            
+            @Override
+            public Boolean convertArg(String arg) {
+                return "t".equalsIgnoreCase(arg) || "true".equalsIgnoreCase(arg);
+            }
+            
+            @Override
+            public Boolean getDefaultValue() {
+                return false;
+            }
+        });
+        INTERNAL_CONVERTERS.put(char.class, new ArgConverter<Character>(char.class) {
+        
+            @Override
+            public Character convertArg(String arg) {
+                return arg.length() > 0 ? arg.charAt(0) : 0;
+            }
+        
+            @Override
+            public Character getDefaultValue() {
+                return 0;
+            }
+        });
+        INTERNAL_CONVERTERS.put(Character.class, new ArgConverter<Character>(Character.class) {
+        
+            @Override
+            public Character convertArg(String arg) {
+                return arg.length() > 0 ? arg.charAt(0) : 0;
+            }
+        
+            @Override
+            public Character getDefaultValue() {
+                return 0;
+            }
+        });
         INTERNAL_CONVERTERS.put(String.class, new ArgConverter<String>(String.class) {
             
             @Override
@@ -188,8 +237,6 @@ public class ArgConverterManager {
         });
     }
     
-    private static ArgConverterManager instance;
-    
     private Map<Class<?>, ArgConverter<?>> argConverters = Maps.newHashMap();
     
     protected ArgConverterManager() {
@@ -199,7 +246,7 @@ public class ArgConverterManager {
     
     /**
      * 获取参数转换器管理器实例
-     * 
+     *
      * @return 参数转换器管理器实例
      */
     public static ArgConverterManager getInstance() {
@@ -213,13 +260,14 @@ public class ArgConverterManager {
      * 注册参数转换器
      * <p>
      * 若已存在结果类型为cls的参数转换器则会注册失败
-     * 
+     *
      * @param <T>
-     *            参数转换器的结果类型
+     *     参数转换器的结果类型
      * @param cls
-     *            参数转换器的结果类型的Class对象
+     *     参数转换器的结果类型的Class对象
      * @param converter
-     *            参数转换器
+     *     参数转换器
+     *
      * @return 成功注册返回true，否则返回false
      */
     public <T> boolean registerArgConverter(Class<T> cls, ArgConverter<T> converter) {
@@ -233,11 +281,12 @@ public class ArgConverterManager {
     
     /**
      * 获取指定类型的参数转换器
-     * 
+     *
      * @param <T>
-     *            参数转换器的结果类型
+     *     参数转换器的结果类型
      * @param cls
-     *            参数转换器的结果类型的Class对象
+     *     参数转换器的结果类型的Class对象
+     *
      * @return 转换结果为cls类对象的参数转换器
      */
     @SuppressWarnings("unchecked")
@@ -247,14 +296,16 @@ public class ArgConverterManager {
     
     /**
      * 获取所有指定类型的参数转换器
-     * 
+     *
      * @param clss
-     *            参数转换器的转换结果类型
+     *     参数转换器的转换结果类型
+     *
      * @return 所有指定类型的参数转换器
+     *
      * @throws NullPointerException
-     *             若clss参数中有某个元素为null则会抛出此异常
+     *     若clss参数中有某个元素为null则会抛出此异常
      * @throws MissingAraConverterException
-     *             若无法找到某个参数的参数转换器则会抛出此异常
+     *     若无法找到某个参数的参数转换器则会抛出此异常
      * @see #getArgConverter(Class)
      */
     public ArgConverter<?>[] getArgConverters(Class<?>[] clss) throws MissingAraConverterException {
@@ -282,7 +333,7 @@ public class ArgConverterManager {
         
         /**
          * @param convertTo
-         *            参数转换器的结果类型
+         *     参数转换器的结果类型
          */
         private MissingAraConverterException(Class<?> convertTo) {
             super(convertTo.getName());
@@ -291,7 +342,7 @@ public class ArgConverterManager {
         
         /**
          * 获取未找到的参数转换器应有的结果类型
-         * 
+         *
          * @return 参数转换器的结果类型
          */
         public Class<?> getConvertTo() {
