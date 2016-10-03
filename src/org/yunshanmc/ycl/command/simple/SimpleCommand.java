@@ -25,8 +25,7 @@ import java.util.List;
 public abstract class SimpleCommand implements Command {
     
     private static final MethodFinder METHOD_FINDER = new MethodFinder().filterAnnotationPresent(CommandHandler.class)
-                                                                        .filterPublic()
-                                                                        .filterReturnType(boolean.class);
+                                                                        .filterPublic();
     private static final Lookup       LOOKUP        = MethodHandles.lookup();
     protected Messager                       messager;
     private SimpleCommandManager commandManager = null;
