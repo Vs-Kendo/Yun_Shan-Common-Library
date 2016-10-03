@@ -12,8 +12,19 @@ import java.lang.reflect.Method;
  */
 public abstract class ArgConverter<T> {
     
-    private static final Method mConvert = ArgConverter.class.getDeclaredMethods()[0];
-    private static final Lookup LOOKUP   = MethodHandles.lookup();
+    private static final Lookup LOOKUP;
+    
+    private static       Method mConvert;
+    
+    static {
+        LOOKUP = MethodHandles.lookup();
+        try {
+            mConvert = ArgConverter.class.getDeclaredMethod("convert");
+        } catch (NoSuchMethodException e) {
+            // 该错误不会出现
+            e.printStackTrace();
+        }
+    }
     
     private final Class<T> convertTo;
     
@@ -25,9 +36,10 @@ public abstract class ArgConverter<T> {
      * 转换参数
      * <p>
      * 将字符串类型的参数转换成对象
-     * 
+     *
      * @param arg
-     *            参数
+     *     参数
+     *
      * @return 转换后的对象
      */
     public final T convert(String arg) {
@@ -63,9 +75,10 @@ public abstract class ArgConverter<T> {
      * <p>
      * 将字符串类型的参数转换成对象<br>
      * <b>注意：对于相同的字符串，应返回相同的结果</b>
-     * 
+     *
      * @param arg
-     *            参数
+     *     参数
+     *
      * @return 转换后的对象
      */
     protected abstract T convertArg(String arg);
