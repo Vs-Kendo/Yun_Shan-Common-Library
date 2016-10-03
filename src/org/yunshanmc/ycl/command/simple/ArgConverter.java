@@ -14,15 +14,15 @@ public abstract class ArgConverter<T> {
     
     private static final Lookup LOOKUP;
     
-    private static       Method mConvert;
+    private static Method mConvert;
     
     static {
         LOOKUP = MethodHandles.lookup();
-        try {
-            mConvert = ArgConverter.class.getDeclaredMethod("convert");
-        } catch (NoSuchMethodException e) {
-            // 该错误不会出现
-            e.printStackTrace();
+        for (Method m : ArgConverter.class.getDeclaredMethods()) {
+            if ("convert".equals(m.getName())) {
+                mConvert = m;
+                break;
+            }
         }
     }
     
