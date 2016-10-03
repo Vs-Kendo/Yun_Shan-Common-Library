@@ -119,11 +119,12 @@ public abstract class BaseCommandManager implements CommandManager {
         if (parent != null) {
             cmd = this.subCommands.get(parent).get(cmdName);
             path = Joiner.on('.').join("command.help", parent, cmdName);
+            cmdName = parent + " " + cmdName;
         } else {
             cmd = this.commands.get(cmdName);
             path = Joiner.on('.').join("command.help", cmdName);
         }
-        this.messager.info(sender, path, cmd.getUsage(), cmd.getDescription());
+        this.messager.info(sender, path, cmdName, cmd.getUsage(), cmd.getDescription());
     }
     
     @Override
