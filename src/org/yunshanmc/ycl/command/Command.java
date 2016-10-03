@@ -16,6 +16,20 @@ public interface Command {
     String getName();
     
     /**
+     * 获取命令语法
+     *
+     * @return 命令语法
+     */
+    String getUsage();
+    
+    /**
+     * 获取命令描述
+     *
+     * @return 命令描述
+     */
+    String getDescription();
+    
+    /**
      * 查看命令是否有效
      * <p>
      * 当返回false时命令将不会被调用，并向玩家返回命令被禁用的信息
