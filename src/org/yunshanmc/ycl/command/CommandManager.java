@@ -64,14 +64,14 @@ public interface CommandManager extends CommandExecutor {
     CommandManager setHandleCommand(String handle, JavaPlugin plugin);
     
     /**
-     * 向指定CommandSender显示命令语法
+     * 向指定CommandSender显示命令帮助
      *
      * @param sender
-     *     要显示命令语法的CommandSender
+     *     要显示命令帮助的CommandSender
      * @param cmdName
      *     命令名
      */
-    void showUsage(CommandSender sender, String cmdName);
+    void showHelp(CommandSender sender, String cmdName);
     
     /**
      * 注册命令

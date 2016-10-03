@@ -1,6 +1,5 @@
 package org.yunshanmc.ycl.command;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.Maps;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -26,7 +25,7 @@ public abstract class BaseCommandManager implements CommandManager {
     private   PluginCommand handleCmd;
     private   String        handleCmdName;
     
-    private ThreadLocal<String> parentCmd = new ThreadLocal<>();
+    protected ThreadLocal<String> parentCmd = new ThreadLocal<>();
     
     public BaseCommandManager() {
         this(null);
@@ -113,15 +112,15 @@ public abstract class BaseCommandManager implements CommandManager {
     }
     
     @Override
-    public void showUsage(CommandSender sender, String cmdName) {
+    public void showHelp(CommandSender sender, String cmdName) {
         String parent = parentCmd.get();
+        Command cmd;
         if (parent != null) {
-            this.messager.info(sender, Joiner.on('.').join("command.usage", this.handleCmdName, parent, cmdName),
-                               this.handleCmdName, parent, cmdName);
+            cmd = this.subCommands.get(parent).get(cmdName);
         } else {
-            this.messager.info(sender, Joiner.on('.').join("command.usage", this.handleCmdName, cmdName),
-                               this.handleCmdName, cmdName);
+            cmd = this.commands.get(cmdName);
         }
+        this.messager.info(sender, "command.help" ,cmd.getUsage() ,cmd.getDescription());
     }
     
     @Override

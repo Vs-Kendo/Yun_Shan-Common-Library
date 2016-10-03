@@ -129,13 +129,13 @@ public abstract class SimpleCommand implements Command {
     }
     
     /**
-     * 向指定CommandSender显示命令语法
+     * 向指定CommandSender显示命令帮助
      *
      * @param sender
-     *     要显示命令语法的CommandSender
+     *     要显示命令帮助的CommandSender
      */
-    protected void showUsage(CommandSender sender) {
-        this.commandManager.showUsage(sender, this.name);
+    protected void showHelp(CommandSender sender) {
+        this.commandManager.showHelp(sender, this.name);
     }
     
     /**
@@ -159,7 +159,7 @@ public abstract class SimpleCommand implements Command {
      *     实际命令参数
      */
     protected void onTooLittleArgs(CommandSender sender, String... args) {
-        this.showUsage(sender);
+        this.showHelp(sender);
     }
     
     /**
@@ -171,7 +171,7 @@ public abstract class SimpleCommand implements Command {
      *     实际命令参数
      */
     protected void onTooManyArgs(CommandSender sender, String... args) {
-        this.showUsage(sender);
+        this.showHelp(sender);
     }
     
     /**
@@ -189,7 +189,7 @@ public abstract class SimpleCommand implements Command {
      *     实际命令参数
      */
     protected void onArgConvertFail(CommandSender sender, String arg, Class<?> convertTo, String... args) {
-        this.showUsage(sender);
+        this.showHelp(sender);
     }
     
     private static void init(SimpleCommand command, ArgConverterManager converterManager) {
