@@ -22,10 +22,9 @@ public abstract class BaseCommandManager implements CommandManager {
     protected Map<String, Map<String, Command>> subCommands = Maps.newHashMap();
     protected String        mainCommand;
     protected Messager      messager;
+    protected ThreadLocal<String> parentCmd = new ThreadLocal<>();
     private   PluginCommand handleCmd;
     private   String        handleCmdName;
-    
-    protected ThreadLocal<String> parentCmd = new ThreadLocal<>();
     
     public BaseCommandManager() {
         this(null);
@@ -117,10 +116,11 @@ public abstract class BaseCommandManager implements CommandManager {
         Command cmd;
         if (parent != null) {
             cmd = this.subCommands.get(parent).get(cmdName);
+            cmdName = parent + " " + cmdName;
         } else {
             cmd = this.commands.get(cmdName);
         }
-        this.messager.info(sender, "command.help" ,cmd.getUsage() ,cmd.getDescription());
+        this.messager.info(sender, "command.help", cmdName, cmd.getUsage(), cmd.getDescription());
     }
     
     @Override
