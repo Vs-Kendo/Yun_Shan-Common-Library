@@ -1,13 +1,13 @@
 package org.yunshanmc.ycl.utils.reflect;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import org.yunshanmc.ycl.exception.ExceptionUtils;
 import org.yunshanmc.ycl.resource.Resource;
 import org.yunshanmc.ycl.resource.URLResource;
 
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -114,9 +114,9 @@ public final class ReflectionUtils {
      * @param resourceName
      *     资源名，需要完整名称，不接受"/"开头的形式
      *
-     * @return 资源集合
+     * @return 资源列表
      */
-    public static Collection<Resource> traceResource(String resourceName) {
+    public static List<Resource> traceResource(String resourceName) {
         return traceResource(resourceName, new Throwable().getStackTrace());
     }
     
@@ -130,12 +130,12 @@ public final class ReflectionUtils {
      * @param stackTrace
      *     指定的调用栈路径
      *
-     * @return 资源集合
+     * @return 资源列表
      */
-    public static Collection<Resource> traceResource(String resourceName, StackTraceElement[] stackTrace) {
+    public static List<Resource> traceResource(String resourceName, StackTraceElement[] stackTrace) {
         Objects.requireNonNull(resourceName);
         Objects.requireNonNull(stackTrace);
-        Collection<Resource> resources = Sets.newHashSet();
+        List<Resource> resources = Lists.newLinkedList();
         for (StackTraceElement stack : stackTrace) {
             try {
                 Class<?> clazz = Class.forName(stack.getClassName());
