@@ -10,7 +10,6 @@ import org.yunshanmc.ycl.resource.Resource;
 import org.yunshanmc.ycl.utils.reflect.ReflectionUtils;
 
 import java.lang.reflect.Proxy;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -69,7 +68,6 @@ public final class BukkitUtils {
         List<Resource> resources = ReflectionUtils.traceResource("plugin.yml", stackTrace);
         List<Plugin> plugins = Lists.newLinkedList();
         Iterables.addAll(plugins, Lists.transform(resources, BukkitUtils::resolvePlugin));
-        Collections.reverse(plugins);
         return plugins;
     }
     

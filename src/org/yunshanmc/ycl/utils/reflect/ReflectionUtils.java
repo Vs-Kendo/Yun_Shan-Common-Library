@@ -7,6 +7,7 @@ import org.yunshanmc.ycl.resource.URLResource;
 
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -114,7 +115,7 @@ public final class ReflectionUtils {
      * @param resourceName
      *     资源名，需要完整名称，不接受"/"开头的形式
      *
-     * @return 资源列表
+     * @return 按调用顺序排列的资源列表
      */
     public static List<Resource> traceResource(String resourceName) {
         return traceResource(resourceName, new Throwable().getStackTrace());
@@ -130,7 +131,7 @@ public final class ReflectionUtils {
      * @param stackTrace
      *     指定的调用栈路径
      *
-     * @return 资源列表
+     * @return 按调用顺序排列的资源列表
      */
     public static List<Resource> traceResource(String resourceName, StackTraceElement[] stackTrace) {
         Objects.requireNonNull(resourceName);
@@ -146,6 +147,7 @@ public final class ReflectionUtils {
                 //无法找到不在classPath的类，但没有影响
             }
         }
+        Collections.reverse(resources);
         return resources;
     }
 }
