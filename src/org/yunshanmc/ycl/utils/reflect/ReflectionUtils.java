@@ -139,6 +139,7 @@ public final class ReflectionUtils {
         for (StackTraceElement stack : stackTrace) {
             try {
                 Class<?> clazz = Class.forName(stack.getClassName());
+                if (clazz.getClassLoader() == null) continue; //无ClassLoader的类是Java核心类
                 URL resource = clazz.getClassLoader().getResource(resourceName);
                 if (resource != null) resources.add(new URLResource(resource));
             } catch (ClassNotFoundException e) {
