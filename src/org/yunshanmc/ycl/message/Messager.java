@@ -110,7 +110,7 @@ public interface Messager {
      * 
      * @param debugLevel
      *            要设置的调试级别
-     * @return 返回本体(<code>return this</code>)
+     * @return 返回自身
      */
     Messager setDebugLevel(int debugLevel);
     
