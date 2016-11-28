@@ -112,19 +112,21 @@ public abstract class BaseCommandManager implements CommandManager {
     }
     
     @Override
-    public void showHelp(CommandSender sender, String cmdName) {
+    public void showUsage(CommandSender sender, String cmdName) {
         String parent = parentCmd.get();
         Command cmd;
         String path;
         if (parent != null) {
             cmd = this.subCommands.get(parent).get(cmdName);
-            path = Joiner.on('.').join("command.help", parent, cmdName);
+            path = Joiner.on('.').join("command.usage.cmd", parent, cmdName);
             cmdName = parent + " " + cmdName;
         } else {
             cmd = this.commands.get(cmdName);
-            path = Joiner.on('.').join("command.help", cmdName);
+            path = Joiner.on('.').join("command.usage.cmd", cmdName);
         }
+        this.messager.info(sender, "command.usage.head", cmdName);
         this.messager.info(sender, path, cmdName, cmd.getUsage(), cmd.getDescription());
+        this.messager.info(sender, "command.usage.foot", cmdName);
     }
     
     @Override

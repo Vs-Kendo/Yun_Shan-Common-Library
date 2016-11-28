@@ -1,3 +1,9 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+
 plugins {
     id "com.jfrog.bintray" version "1.7.1"
     id 'me.tatarka.retrolambda' version '3.3.0'
@@ -5,7 +11,7 @@ plugins {
 
 ext.pluginGroup = 'org.yunshanmc.plugin'
 ext.pluginName = 'Yun_Shan-Common-Library'
-ext.pluginVersion = '1.0.0.16'
+ext.pluginVersion = '1.0.0.18'
 
 group = pluginGroup
 version = pluginVersion
@@ -33,9 +39,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 retrolambda {
-    jdk System.getenv("JAVA8_HOME")
-    oldJdk System.getenv("JAVA6_HOME")
-    javaVersion JavaVersion.VERSION_1_6
+    javaVersion JavaVersion.VERSION_1_7
 }
 
 // 源码位置定义
@@ -68,10 +72,9 @@ compileJava {
     options.encoding = 'utf-8' // 源码为utf-8编码
 }
 
-processResources {
-    filter {line -> line.replace("\${pluginVersion}", pluginVersion).replace("\${pluginName}", "YCL")}
+compileTestJava {
+    options.encoding = 'utf-8' // 源码为utf-8编码
 }
-
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
@@ -79,9 +82,51 @@ dependencies {
     compile('org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT') { transitive = false }
     // Guava
     compile 'com.google.guava:guava:11.0'
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    compile 'org.jsoup:jsoup:1.9.2'
+
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    runtime 'org.jsoup:jsoup:1.9.2'
 
     // JUnit Test
     testCompile 'junit:junit:4.12'
+}
+
+task fetchClasses {
+    File dir = file('build/classes/dependencies')
+
+    inputs.property('depend', configurations.runtime)
+    outputs.dir dir
+
+    doLast {
+        dir.mkdirs()
+        configurations.runtime.forEach { file ->
+            try {
+                ZipFile zip = new ZipFile(file);
+                for (ZipEntry entry : zip.entries()) {
+                    if (entry.getName().endsWith(".class")) {
+                        File f = new File(dir, entry.getName())
+                        f.getParentFile().mkdirs()
+                        Files.copy(zip.getInputStream(entry), Paths.get(f.toURI()), StandardCopyOption.REPLACE_EXISTING)
+                    }
+                }
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
+    }
+}
+
+classes.finalizedBy fetchClasses
+
+processResources {
+    filter {line -> line.replace("\${pluginVersion}", pluginVersion).replace("\${pluginName}", "YCL")}
+}
+
+jar {
+    into('') {
+        from fileTree('build/classes/dependencies')
+    }
 }
 
 task sourceJar(type: Jar) {

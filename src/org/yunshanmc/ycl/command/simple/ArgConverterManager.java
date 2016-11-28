@@ -177,7 +177,13 @@ public class ArgConverterManager {
             
             @Override
             public Boolean convertArg(String arg) {
-                return "t".equalsIgnoreCase(arg) || "true".equalsIgnoreCase(arg);
+                switch (arg) {
+                    case "t":
+                    case "true": return true;
+                    case "f":
+                    case "false": return false;
+                    default: throw new RuntimeException();
+                }
             }
             
             @Override

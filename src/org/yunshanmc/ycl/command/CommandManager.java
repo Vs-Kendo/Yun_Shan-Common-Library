@@ -71,7 +71,7 @@ public interface CommandManager extends CommandExecutor {
      * @param cmdName
      *     命令名
      */
-    void showHelp(CommandSender sender, String cmdName);
+    void showUsage(CommandSender sender, String cmdName);
     
     /**
      * 注册命令
